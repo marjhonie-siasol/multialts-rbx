@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "name": "multialts-rbx",
+  "daemon": {
+    "port": 28491,
+    "enableHttpApi": true,
+    "autoStartOnLogin": true,
+    "bindAddress": "127.0.0.1"
+  },
+  "engine": {
+    "targetProcess": "RobloxPlayerBeta",
+    "lockPatterns": [
+      "ROBLOX_singletonMutex",
+      "ROBLOX_singletonEvent"
+    ],
+    "eventDrivenWatch": true,
+    "pollIntervalMs": 350,
+    "maxUnlockRetries": 10,
+    "retryDelayMs": 300
+  },
+  "logging": {
+    "enabled": true,
+    "logToFile": true,
+    "maxLogSizeBytes": 5242880
+  }
+}
