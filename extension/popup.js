@@ -76,11 +76,12 @@ function bindEvents() {
     if (altBtn) altBtn.onclick = signIntoAlt;
 }
 
-// 3. Load Accounts
+// 3. Load Accounts with Real-Time Online / Playing / Offline Status
 async function loadAccounts() {
-    const data = await chrome.storage.local.get(['accounts', 'activeUserId']);
+    const data = await chrome.storage.local.get(['accounts', 'activeUserId', 'playingUsers']);
     const accounts = data.accounts || [];
-    const activeUserId = data.activeUserId || null;
+    let activeUserId = data.activeUserId || null;
+    let playingUsers = data.playingUsers || {};
 
     const list = document.getElementById('accountsList');
     if (!list) return;
@@ -90,19 +91,77 @@ async function loadAccounts() {
         return;
     }
 
+    // Identify which account matches active browser cookie right now
+    try {
+        const currentCookie = await chrome.cookies.get({
+            url: 'https://www.roblox.com',
+            name: '.ROBLOSECURITY'
+        });
+        if (currentCookie && currentCookie.value) {
+            const matched = accounts.find(a => a.cookie === currentCookie.value);
+            if (matched) {
+                activeUserId = matched.id;
+                await chrome.storage.local.set({ activeUserId });
+            }
+        }
+    } catch (_) {}
+
+    // Fetch live presence from Roblox Presence API
+    const userIds = accounts.map(a => a.id).filter(Boolean);
+    const presenceMap = {};
+    if (userIds.length > 0) {
+        try {
+            const presRes = await fetch('https://presence.roblox.com/v1/presence/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userIds })
+            });
+            if (presRes.ok) {
+                const presData = await presRes.json();
+                (presData.userPresences || []).forEach(p => {
+                    presenceMap[p.userId] = p;
+                });
+            }
+        } catch (_) {}
+    }
+
     list.innerHTML = '';
     accounts.forEach(acc => {
-        const isActive = acc.id === activeUserId;
+        const presence = presenceMap[acc.id];
+        const isPresencePlaying = presence && (presence.userPresenceType === 2 || presence.userPresenceType === 3);
+        const isLocalPlaying = playingUsers[acc.id] && (Date.now() - playingUsers[acc.id] < 1000 * 60 * 60 * 3);
+        const isPlaying = isPresencePlaying || isLocalPlaying;
+        const isCurrentBrowser = acc.id === activeUserId;
+
+        let statusClass = 'offline';
+        let statusLabel = 'Offline';
+        let statusTitle = 'Offline — not in browser or game';
+
+        if (isPlaying) {
+            statusClass = 'playing';
+            statusLabel = 'Playing';
+            statusTitle = presence?.lastLocation ? `Playing: ${presence.lastLocation}` : 'Playing — running in game window';
+        } else if (isCurrentBrowser) {
+            statusClass = 'online';
+            statusLabel = 'Online';
+            statusTitle = 'Online — active session in browser';
+        }
+
         const card = document.createElement('div');
-        card.className = `account-card ${isActive ? 'active' : ''}`;
+        card.className = `account-card ${statusClass} ${isCurrentBrowser ? 'active' : ''}`;
         
         card.innerHTML = `
             <div class="avatar">
                 ${acc.avatarUrl ? `<img src="${acc.avatarUrl}" alt="${acc.name}">` : acc.name.slice(0, 2).toUpperCase()}
+                <span class="avatar-status-pip ${statusClass}"></span>
             </div>
             <div class="info">
                 <div class="name">${acc.displayName || acc.name}</div>
                 <div class="sub">@${acc.name}</div>
+            </div>
+            <div class="status-badge ${statusClass}" title="${statusTitle}">
+                <span class="status-dot"></span>
+                <span class="status-label">${statusLabel}</span>
             </div>
             <button class="btn-del" data-id="${acc.id}" title="Remove">✕</button>
         `;

@@ -52,6 +52,17 @@ function injectMultiAltsButton() {
             }).catch(() => {});
         } catch (_) {}
 
+        // Record active account as Playing in local storage
+        try {
+            chrome.storage.local.get(['activeUserId', 'playingUsers'], (data) => {
+                if (data.activeUserId) {
+                    const playing = data.playingUsers || {};
+                    playing[data.activeUserId] = Date.now();
+                    chrome.storage.local.set({ playingUsers: playing });
+                }
+            });
+        } catch (_) {}
+
         // Trigger Roblox's native play button click to execute auth and launch
         const nativeBtn = 
             playContainer.querySelector('button') || 

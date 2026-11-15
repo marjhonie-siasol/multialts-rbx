@@ -49,7 +49,7 @@
 
 /* Rounded Popup Window */
 html, body {
-    width: 322px;
+    width: 336px;
     background-color: var(--bg);
     color: var(--text-pure);
     border-radius: 16px;
@@ -360,7 +360,8 @@ body {
     font-weight: 700;
     color: var(--text-pure);
     flex-shrink: 0;
-    overflow: hidden;
+    overflow: visible;
+    position: relative;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -371,13 +372,40 @@ body {
     object-fit: cover;
 }
 
+/* Micro status pip on avatar corner */
+.avatar-status-pip {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid #141720;
+    z-index: 2;
+}
+
+.avatar-status-pip.playing {
+    background: #10b981;
+    box-shadow: 0 0 5px #10b981;
+}
+
+.avatar-status-pip.online {
+    background: var(--accent-teal);
+    box-shadow: 0 0 4px var(--accent-teal);
+}
+
+.avatar-status-pip.offline {
+    background: #505667;
+}
+
 .info {
     flex: 1;
     min-width: 0;
+    margin-right: 4px;
 }
 
 .name {
-    font-size: 0.84rem;
+    font-size: 0.83rem;
     font-weight: 700;
     color: var(--text-pure);
     white-space: nowrap;
@@ -386,8 +414,74 @@ body {
 }
 
 .sub {
-    font-size: 0.68rem;
+    font-size: 0.67rem;
     color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Status Badge Pill */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2.5px 7px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    user-select: none;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+}
+
+.status-badge .status-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Playing State (Emerald Glow) */
+.status-badge.playing {
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.32);
+    color: #34d399;
+}
+.status-badge.playing .status-dot {
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+}
+
+/* Online State (Active in browser - Brand Teal) */
+.status-badge.online {
+    background: rgba(0, 196, 180, 0.1);
+    border: 1px solid rgba(0, 196, 180, 0.28);
+    color: var(--accent-teal);
+}
+.status-badge.online .status-dot {
+    background: var(--accent-teal);
+    box-shadow: 0 0 6px rgba(0, 196, 180, 0.6);
+}
+
+/* Offline State (Idle in storage - Muted) */
+.status-badge.offline {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: var(--text-muted);
+}
+.status-badge.offline .status-dot {
+    background: #505667;
+}
+
+/* Card highlight states */
+.account-card.playing {
+    border-color: rgba(16, 185, 129, 0.35);
+}
+
+.account-card.online {
+    border-color: rgba(0, 196, 180, 0.38);
 }
 
 .btn-del {
