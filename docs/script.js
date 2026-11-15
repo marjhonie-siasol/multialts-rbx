@@ -34,6 +34,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Copy Command on Uninstallation Card
+    const uninstallCopyBtn = document.getElementById('uninstallCopyBtn');
+    const uninstallCommandCode = document.getElementById('uninstallCommandCode');
+
+    if (uninstallCopyBtn && uninstallCommandCode) {
+        const btnTextSpan = uninstallCopyBtn.querySelector('span');
+
+        uninstallCopyBtn.addEventListener('click', () => {
+            const textToCopy = uninstallCommandCode.innerText.trim();
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btnTextSpan ? btnTextSpan.innerText : uninstallCopyBtn.innerText;
+                if (btnTextSpan) {
+                    btnTextSpan.innerText = 'Copied!';
+                } else {
+                    uninstallCopyBtn.innerText = 'Copied!';
+                }
+                uninstallCopyBtn.style.background = '#f87171';
+                uninstallCopyBtn.style.color = '#000000';
+
+                setTimeout(() => {
+                    if (btnTextSpan) {
+                        btnTextSpan.innerText = originalText;
+                    } else {
+                        uninstallCopyBtn.innerText = originalText;
+                    }
+                    uninstallCopyBtn.style.background = '';
+                    uninstallCopyBtn.style.color = '';
+                }, 2200);
+            }).catch(err => {
+                console.error('Clipboard copy failed:', err);
+            });
+        });
+    }
+
     // Smooth scroll for in-page anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {

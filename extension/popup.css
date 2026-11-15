@@ -521,6 +521,128 @@ body {
     border-color: rgba(245, 158, 11, 0.35);
 }
 
+/* Uninstallation Collapsible Footer */
+.uninstall-footer {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.btn-uninstall-toggle {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-family: var(--font-main);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 4px 2px;
+    transition: color 0.15s ease;
+}
+
+.btn-uninstall-toggle:hover {
+    color: var(--text-pure);
+}
+
+.btn-uninstall-toggle .toggle-icon {
+    transition: transform 0.2s ease;
+}
+
+.btn-uninstall-toggle.open .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.uninstall-panel {
+    background: #0f121a;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.uninstall-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin: 0;
+}
+
+.uninstall-steps {
+    font-size: 0.72rem;
+    color: var(--text-sub);
+    line-height: 1.45;
+    margin: 0;
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.uninstall-steps strong {
+    color: var(--text-pure);
+}
+
+.command-box.uninstall-box {
+    margin-top: 2px;
+}
+
+.command-box.uninstall-box .command-text {
+    height: 48px;
+    font-size: 0.68rem;
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.05);
+    border-color: rgba(248, 113, 113, 0.2);
+}
+
+.uninstall-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.btn-copy-uninstall {
+    background: #191d29;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-pure);
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: var(--font-main);
+    padding: 6px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.15s ease;
+}
+
+.btn-copy-uninstall:hover {
+    background: #242938;
+    border-color: rgba(248, 113, 113, 0.4);
+    color: #f87171;
+}
+
+.uninstall-guide-link {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+}
+
+.uninstall-guide-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
 /* Toast */
 .toast {
     position: fixed;

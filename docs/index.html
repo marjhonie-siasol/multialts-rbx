@@ -28,6 +28,7 @@
                 <a href="#privacy" class="nav-link">Privacy</a>
                 <a href="#releases" class="nav-link">Releases</a>
                 <a href="#quickstart" class="nav-link">Quickstart</a>
+                <a href="#uninstall" class="nav-link">Uninstall</a>
                 <a href="#faq" class="nav-link">FAQ</a>
             </nav>
 
@@ -325,7 +326,7 @@
                                 </svg>
                                 <span>Copy Command</span>
                             </button>
-                            <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/multialts.ps1" target="_blank" rel="noopener" class="terminal-view-code">
+                            <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/install.ps1" target="_blank" rel="noopener" class="terminal-view-code">
                                 <span>Inspect on GitHub</span>
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
@@ -336,7 +337,7 @@
                         </div>
                     </div>
                     <div class="terminal-body">
-                        <pre class="terminal-code-block"><code id="webCommandCode">irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/multialts.ps1 | iex</code></pre>
+                        <pre class="terminal-code-block"><code id="webCommandCode">irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/install.ps1 | iex</code></pre>
                     </div>
                 </div>
 
@@ -678,7 +679,7 @@
                         </div>
                         <h3 class="step-title">Start the Engine</h3>
                         <p class="step-text">
-                            Open Windows PowerShell (no administrator rights needed), paste the one-line command, and press Enter. The extension status will turn to <strong>Engine Active</strong>.
+                            Open Windows PowerShell and run <code>irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/install.ps1 | iex</code> (or double-click <code>install.cmd</code>). The extension will switch to <strong>Engine Active</strong>.
                         </p>
                     </div>
 
@@ -714,11 +715,93 @@
             </div>
         </section>
 
-        <!-- Section 7: FAQ -->
-        <section class="content-section alt-bg" id="faq">
+        <!-- Section 7: Uninstallation -->
+        <section class="content-section alt-bg" id="uninstall">
             <div class="section-container">
                 <div class="section-heading">
-                    <span class="section-tag">[07] FAQ</span>
+                    <span class="section-tag">[07] UNINSTALLATION</span>
+                    <h2 class="section-title">How to completely uninstall MultiAlts</h2>
+                    <p class="section-intro">
+                        Revert your computer and Roblox back to standard single-instance mode in two simple steps.
+                    </p>
+                </div>
+
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-header">
+                            <span class="step-index">STEP 1</span>
+                        </div>
+                        <h3 class="step-title">Remove the Extension</h3>
+                        <p class="step-text">
+                            Right-click the MultiAlts icon in your browser toolbar (or visit <code>chrome://extensions</code>) and select <strong>Remove from Chrome</strong>. This clears your local account vault and removes website buttons.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-header">
+                            <span class="step-index">STEP 2</span>
+                        </div>
+                        <h3 class="step-title">Run Clean Uninstaller</h3>
+                        <p class="step-text">
+                            Open Windows PowerShell and paste the one-line uninstaller below. It terminates the background engine, deletes the Windows startup entry, and wipes AppData runtime files.
+                        </p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-header">
+                            <span class="step-index">STEP 3</span>
+                        </div>
+                        <h3 class="step-title">Restored to Vanilla</h3>
+                        <p class="step-text">
+                            Your system is completely clean. The next time you open Roblox and try to launch a second account, Roblox will enforce its native single-instance limit and block the second window.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Interactive Terminal for Uninstall Command -->
+                <div class="terminal-container" style="margin-top: 36px;">
+                    <div class="terminal-topbar">
+                        <div class="terminal-dots">
+                            <span class="term-dot dot-close"></span>
+                            <span class="term-dot dot-min"></span>
+                            <span class="term-dot dot-max"></span>
+                            <span class="terminal-file-name">Windows PowerShell (Uninstaller)</span>
+                        </div>
+                        <div class="terminal-top-actions">
+                            <button class="terminal-copy-btn" id="uninstallCopyBtn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                                <span>Copy Uninstaller</span>
+                            </button>
+                            <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/uninstall.ps1" target="_blank" rel="noopener" class="terminal-view-code">
+                                <span>Inspect on GitHub</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                    <polyline points="15 3 21 3 21 9"/>
+                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="terminal-body">
+                        <pre class="terminal-code-block"><code id="uninstallCommandCode">irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1 | iex</code></pre>
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px; font-size: 0.84rem; color: var(--text-muted); text-align: center;">
+                    Downloaded the files locally? You can also simply double-click <code>uninstall.cmd</code> or run <code>.\uninstall.ps1</code>.
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 8: FAQ -->
+        <section class="content-section" id="faq">
+            <div class="section-container">
+                <div class="section-heading">
+                    <span class="section-tag">[08] FAQ</span>
                     <h2 class="section-title">Frequently asked questions</h2>
                     <p class="section-intro">
                         Clear answers to common questions about safety, performance, and compatibility.
@@ -764,7 +847,11 @@
                     <div class="faq-item">
                         <h4 class="faq-question">How do I completely uninstall MultiAlts?</h4>
                         <p class="faq-answer">
-                            Remove the extension from <code>chrome://extensions</code>, and if you wish to remove the daemon binary, delete the folder at <code>%LOCALAPPDATA%\MultiAlts</code>. That is all.
+                            Remove the extension from <code>chrome://extensions</code>, then run the one-line uninstaller in PowerShell:
+                            <br><br>
+                            <code>irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1 | iex</code>
+                            <br><br>
+                            For full step-by-step instructions, see the <a href="#uninstall" style="color: var(--accent); text-decoration: underline;">Uninstallation Guide</a>.
                         </p>
                     </div>
                 </div>
@@ -798,13 +885,15 @@
                     <a href="#privacy">Privacy</a>
                     <a href="#releases">Releases</a>
                     <a href="#quickstart">Quickstart</a>
+                    <a href="#uninstall">Uninstall</a>
                     <a href="#faq">FAQ</a>
                 </div>
 
                 <div class="footer-nav-col">
                     <span class="nav-group-title">Project</span>
                     <a href="https://github.com/marjhonie-siasol/multialts-rbx" target="_blank" rel="noopener">GitHub Repository</a>
-                    <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/multialts.ps1" target="_blank" rel="noopener">PowerShell Script</a>
+                    <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/install.ps1" target="_blank" rel="noopener">Install Script (install.ps1)</a>
+                    <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/uninstall.ps1" target="_blank" rel="noopener">Uninstall Script (uninstall.ps1)</a>
                     <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
                     <a href="downloads/multialts-extension.zip" download="multialts-extension.zip">Download Extension</a>
                 </div>

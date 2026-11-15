@@ -18,6 +18,10 @@ param(
     [string]$Command = 'start'
 )
 
+if ($env:MULTIALTS_ACTION) {
+    $Command = $env:MULTIALTS_ACTION
+}
+
 $AppDir = Join-Path $env:LOCALAPPDATA 'multialts-rbx'
 $AppSrcDir = Join-Path $AppDir 'src'
 $PidFile = Join-Path $AppDir 'daemon.pid'
@@ -126,94 +130,101 @@ function Show-Header {
     Write-Host ""
 }
 
-switch ($Command.ToLower()) {
+function Start-DaemonService {
+    Show-Header
+    $existing = Get-RunningDaemonProcess
+    if ($existing) {
+        Write-Host " [!] Daemon is already active (PID: $($existing.Id))." -ForegroundColor Yellow
+        return
+    }
 
-    'start' {
-        Show-Header
-        $existing = Get-RunningDaemonProcess
-        if ($existing) {
-            Write-Host " [!] Daemon is already active (PID: $($existing.Id))." -ForegroundColor Yellow
+    # Auto-bootstrap files into AppData if running via Web on a fresh machine
+    if (-not (Test-Path $DaemonScript)) {
+        Write-Host " [*] Downloading MultiAlts engine components to AppData..." -ForegroundColor Cyan
+        if (-not (Test-Path $AppSrcDir)) { New-Item -ItemType Directory -Path $AppSrcDir -Force | Out-Null }
+        $rawBase = "https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main"
+        try {
+            Invoke-WebRequest -Uri "$rawBase/src/Daemon.ps1" -OutFile (Join-Path $AppSrcDir 'Daemon.ps1') -UseBasicParsing
+            Invoke-WebRequest -Uri "$rawBase/src/MultiAltsEngine.cs" -OutFile (Join-Path $AppSrcDir 'MultiAltsEngine.cs') -UseBasicParsing
+            if (-not (Test-Path (Join-Path $AppDir 'config.json'))) {
+                Invoke-WebRequest -Uri "$rawBase/config.json" -OutFile (Join-Path $AppDir 'config.json') -UseBasicParsing -ErrorAction SilentlyContinue
+            }
+        } catch {
+            Write-Host " [-] Failed to download engine components: $($_.Exception.Message)" -ForegroundColor Red
             return
         }
+        $script:RootDir = $AppDir
+        $script:DaemonScript = Join-Path $AppDir 'src\Daemon.ps1'
+        $script:EnginePath = Join-Path $AppDir 'src\MultiAltsEngine.cs'
+    }
 
-        # Auto-bootstrap files into AppData if running via Web on a fresh machine
-        if (-not (Test-Path $DaemonScript)) {
-            Write-Host " [*] Downloading MultiAlts engine components to AppData..." -ForegroundColor Cyan
-            if (-not (Test-Path $AppSrcDir)) { New-Item -ItemType Directory -Path $AppSrcDir -Force | Out-Null }
-            $rawBase = "https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main"
-            try {
-                Invoke-WebRequest -Uri "$rawBase/src/Daemon.ps1" -OutFile (Join-Path $AppSrcDir 'Daemon.ps1') -UseBasicParsing
-                Invoke-WebRequest -Uri "$rawBase/src/MultiAltsEngine.cs" -OutFile (Join-Path $AppSrcDir 'MultiAltsEngine.cs') -UseBasicParsing
-                if (-not (Test-Path (Join-Path $AppDir 'config.json'))) {
-                    Invoke-WebRequest -Uri "$rawBase/config.json" -OutFile (Join-Path $AppDir 'config.json') -UseBasicParsing -ErrorAction SilentlyContinue
-                }
-            } catch {
-                Write-Host " [-] Failed to download engine components: $($_.Exception.Message)" -ForegroundColor Red
-                return
-            }
-            $RootDir = $AppDir
-            $DaemonScript = Join-Path $AppDir 'src\Daemon.ps1'
-            $EnginePath = Join-Path $AppDir 'src\MultiAltsEngine.cs'
-        }
+    Write-Host " [*] Starting MultiAlts background daemon..." -ForegroundColor Cyan
 
-        Write-Host " [*] Starting MultiAlts background daemon..." -ForegroundColor Cyan
+    # Register user-level auto-start on Windows boot so the user never has to re-run the command
+    try {
+        $runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
+        $autostartCmd = "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$DaemonScript`""
+        Set-ItemProperty -Path $runKey -Name "MultiAltsRBX" -Value $autostartCmd -Force -ErrorAction SilentlyContinue
+    } catch { }
 
-        # Register user-level auto-start on Windows boot so the user never has to re-run the command
-        try {
-            $runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
-            $autostartCmd = "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$DaemonScript`""
-            Set-ItemProperty -Path $runKey -Name "MultiAltsRBX" -Value $autostartCmd -Force -ErrorAction SilentlyContinue
-        } catch { }
+    # Launch detached hidden background process natively
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = "powershell.exe"
+    $psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$DaemonScript`""
+    $psi.WorkingDirectory = $RootDir
+    $psi.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden
+    $psi.CreateNoWindow = [bool]$true
+    $psi.UseShellExecute = [bool]$true
+    [System.Diagnostics.Process]::Start($psi) | Out-Null
 
-        # Launch detached hidden background process natively
-        $psi = New-Object System.Diagnostics.ProcessStartInfo
-        $psi.FileName = "powershell.exe"
-        $psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$DaemonScript`""
-        $psi.WorkingDirectory = $RootDir
-        $psi.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden
-        $psi.CreateNoWindow = $true
-        $psi.UseShellExecute = $true
-        [System.Diagnostics.Process]::Start($psi) | Out-Null
+    # Wait briefly for startup
+    Start-Sleep -Milliseconds 1200
+    $running = Get-RunningDaemonProcess
+    if ($running) {
+        Write-Host " [+] Daemon successfully started! (PID: $($running.Id))" -ForegroundColor Green
+        Write-Host " [*] Active endpoint: http://localhost:${port}/" -ForegroundColor Gray
+        Write-Host " [*] You can now launch accounts from separate browser profiles." -ForegroundColor White
+    }
+    else {
+        Write-Host " [-] Failed to verify daemon startup. Check log at: $LogFile" -ForegroundColor Red
+    }
+}
 
-        # Wait briefly for startup
-        Start-Sleep -Milliseconds 1200
-        $running = Get-RunningDaemonProcess
-        if ($running) {
-            Write-Host " [+] Daemon successfully started! (PID: $($running.Id))" -ForegroundColor Green
-            Write-Host " [*] Active endpoint: http://localhost:${port}/" -ForegroundColor Gray
-            Write-Host " [*] You can now launch accounts from separate browser profiles." -ForegroundColor White
-        }
-        else {
-            Write-Host " [-] Failed to verify daemon startup. Check log at: $LogFile" -ForegroundColor Red
-        }
+function Stop-DaemonService {
+    Show-Header
+    Write-Host " [*] Stopping MultiAlts background daemon..." -ForegroundColor Cyan
+    
+    # Try graceful HTTP shutdown first
+    try {
+        $null = Invoke-RestMethod -Uri "http://localhost:${port}/stop" -Method Post -TimeoutSec 2 -ErrorAction SilentlyContinue
+    }
+    catch { }
+
+    $running = Get-RunningDaemonProcess
+    if ($running) {
+        Stop-Process -Id $running.Id -Force -ErrorAction SilentlyContinue
+    }
+
+    if (Test-Path $PidFile) {
+        Remove-Item $PidFile -Force -ErrorAction SilentlyContinue
+    }
+
+    Write-Host " [+] Daemon has been stopped." -ForegroundColor Green
+}
+
+switch ($Command.ToLower()) {
+    'start' {
+        Start-DaemonService
     }
 
     'stop' {
-        Show-Header
-        Write-Host " [*] Stopping MultiAlts background daemon..." -ForegroundColor Cyan
-        
-        # Try graceful HTTP shutdown first
-        try {
-            $null = Invoke-RestMethod -Uri "http://localhost:${port}/stop" -Method Post -TimeoutSec 2 -ErrorAction SilentlyContinue
-        }
-        catch { }
-
-        $running = Get-RunningDaemonProcess
-        if ($running) {
-            Stop-Process -Id $running.Id -Force -ErrorAction SilentlyContinue
-        }
-
-        if (Test-Path $PidFile) {
-            Remove-Item $PidFile -Force -ErrorAction SilentlyContinue
-        }
-
-        Write-Host " [+] Daemon has been stopped." -ForegroundColor Green
+        Stop-DaemonService
     }
 
     'restart' {
-        & $MyInvocation.MyCommand.Path stop
+        Stop-DaemonService
         Start-Sleep -Milliseconds 800
-        & $MyInvocation.MyCommand.Path start
+        Start-DaemonService
     }
 
     'status' {
@@ -345,7 +356,7 @@ switch ($Command.ToLower()) {
         Write-Host " [*] Uninstalling MultiAlts RBX..." -ForegroundColor Cyan
 
         # Stop daemon
-        & $MyInvocation.MyCommand.Path stop
+        Stop-DaemonService
 
         # Remove autostart registry
         $runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"

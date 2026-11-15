@@ -36,7 +36,7 @@
             </p>
 
             <div class="command-box">
-                <textarea readonly id="commandInput" class="command-text">irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/multialts.ps1 | iex</textarea>
+                <textarea readonly id="commandInput" class="command-text">irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/install.ps1 | iex</textarea>
             </div>
 
             <div class="setup-actions">
@@ -69,6 +69,40 @@
 
             <button class="btn-alt-login" id="newLoginBtn">+ Sign into Alt</button>
         </section>
+
+        <!-- Uninstallation Collapsible Dropdown -->
+        <footer class="uninstall-footer">
+            <button class="btn-uninstall-toggle" id="uninstallToggleBtn" type="button">
+                <span>Looking to uninstall?</span>
+                <svg class="toggle-icon" id="uninstallToggleIcon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+            <div class="uninstall-panel" id="uninstallPanel" style="display: none;">
+                <p class="uninstall-desc">
+                    To revert Roblox back to standard single-window mode:
+                </p>
+                <ol class="uninstall-steps">
+                    <li>Right-click MultiAlts &rarr; <strong>Remove from Chrome</strong>.</li>
+                    <li>Paste into PowerShell to completely stop and remove the background engine:</li>
+                </ol>
+                <div class="command-box uninstall-box">
+                    <textarea readonly id="uninstallCommandInput" class="command-text">irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1 | iex</textarea>
+                </div>
+                <div class="uninstall-actions">
+                    <button class="btn-copy-uninstall" id="copyUninstallBtn" type="button">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                        Copy Command
+                    </button>
+                    <a href="https://marjhonie-siasol.github.io/multialts-rbx/#uninstall" target="_blank" rel="noopener" class="uninstall-guide-link" id="uninstallGuideLink">
+                        Full Guide &rarr;
+                    </a>
+                </div>
+            </div>
+        </footer>
 
         <!-- Toast Notification -->
         <div class="toast" id="toast"></div>

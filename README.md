@@ -43,9 +43,15 @@ Most multi-accounting setups rely on heavy virtualization, generic Android emula
 
 ```
 multialts-rbx/
-├── multialts.cmd          # Double-clickable quick command runner
-├── multialts.ps1          # Unified Master CLI controller
+├── install.cmd            # Double-click to install & start engine
+├── install.ps1            # One-line installer & background service launcher
+├── uninstall.cmd          # Double-click to completely stop & remove engine
+├── uninstall.ps1          # Clean uninstaller (restores single-instance Roblox)
+├── multialts.cmd          # CLI launcher shortcut
+├── multialts.ps1          # Unified Master CLI controller (status, kill-all, watch)
 ├── config.json            # Centralized settings & engine parameters
+├── docs/                  # Official documentation & landing page website
+├── extension/             # Chromium browser extension source
 ├── src/
 │   ├── MultiAltsEngine.cs # High-performance Win32 NT handle stripping engine
 │   └── Daemon.ps1         # Lean background service & local HTTP REST server
@@ -56,7 +62,25 @@ multialts-rbx/
 
 ---
 
-## 🚀 Quick Start & Core Commands
+## 🚀 Installation & Quick Start
+
+### Option A: One-Line Install (PowerShell)
+Paste into Windows PowerShell (no administrator privileges needed):
+```powershell
+irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/install.ps1 | iex
+```
+*Auto-bootstraps files into `%LOCALAPPDATA%\multialts-rbx`, registers auto-start with Windows, and begins background protection.*
+
+### Option B: Double-Click or Local Script
+If you cloned or downloaded this repository:
+* Simply double-click **`install.cmd`**, or run in PowerShell:
+```powershell
+.\install.ps1
+```
+
+---
+
+## 🎮 CLI Dashboard & Core Commands
 
 ### 1. View Live Status & Dashboard (`status`)
 Open PowerShell in the project directory and run:
@@ -233,6 +257,28 @@ When you're finished grinding:
 | **`.\multialts.ps1 watch`** | Runs live interactive console monitor with real-time log output. | For debugging or watching account launches as they happen. |
 | **`.\multialts.ps1 install`** | Registers auto-start on Windows login and creates a Desktop shortcut. | One-time setup if you want MultiAlts to start automatically with Windows. |
 | **`.\multialts.ps1 uninstall`** | Completely cleans up all registry keys, shortcuts, and AppData files. | If you ever want to completely remove MultiAlts from your PC. |
+
+---
+
+## 🗑️ How to Completely Uninstall MultiAlts
+
+To completely remove MultiAlts and revert Roblox back to standard single-instance mode:
+
+### Step 1: Remove the Browser Extension
+Right-click the MultiAlts icon in Chrome or Brave $\rightarrow$ select **Remove from Chrome**.
+
+### Step 2: Run the Clean Uninstaller Command
+Run this in PowerShell:
+```powershell
+irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1 | iex
+```
+*(Or double-click `uninstall.cmd` / run `.\uninstall.ps1` from the repository folder).*
+
+### What the uninstaller does:
+1. **Terminates background processes:** Stops the background engine and frees port `28491`.
+2. **Removes Windows startup entry:** Deletes `HKCU:\Software\Microsoft\Windows\CurrentVersion\Run\MultiAltsRBX`.
+3. **Deletes runtime files:** Wipes `%LOCALAPPDATA%\multialts-rbx` and removes any desktop shortcuts.
+4. **Restores standard Roblox behavior:** Windows kernel handles remain untouched, meaning Roblox's native single-instance mutex lock is 100% back in effect (second window is blocked).
 
 ---
 

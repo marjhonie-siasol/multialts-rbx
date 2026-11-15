@@ -67,6 +67,37 @@ function bindEvents() {
         };
     }
 
+    // Uninstall Collapsible Dropdown
+    const uninstallToggle = document.getElementById('uninstallToggleBtn');
+    const uninstallPanel = document.getElementById('uninstallPanel');
+    if (uninstallToggle && uninstallPanel) {
+        uninstallToggle.onclick = () => {
+            const isHidden = uninstallPanel.style.display === 'none' || !uninstallPanel.style.display;
+            uninstallPanel.style.display = isHidden ? 'flex' : 'none';
+            uninstallToggle.classList.toggle('open', isHidden);
+        };
+    }
+
+    // Copy Uninstall Command
+    const copyUninstallBtn = document.getElementById('copyUninstallBtn');
+    if (copyUninstallBtn) {
+        copyUninstallBtn.onclick = () => {
+            const cmd = document.getElementById('uninstallCommandInput').value;
+            navigator.clipboard.writeText(cmd).then(() => {
+                showToast('Copied uninstall command!');
+            });
+        };
+    }
+
+    // Uninstall Guide Link
+    const uninstallGuideLink = document.getElementById('uninstallGuideLink');
+    if (uninstallGuideLink) {
+        uninstallGuideLink.onclick = (e) => {
+            e.preventDefault();
+            chrome.tabs.create({ url: uninstallGuideLink.href });
+        };
+    }
+
     // Add Current Account
     const addBtn = document.getElementById('addCurrentBtn');
     if (addBtn) addBtn.onclick = addCurrentAccount;
