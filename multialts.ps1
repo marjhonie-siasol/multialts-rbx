@@ -15,7 +15,7 @@
 param(
     [Parameter(Position = 0)]
     [ValidateSet('start', 'stop', 'restart', 'status', 'unlock', 'watch', 'clean', 'kill-all', 'install', 'uninstall', 'help')]
-    [string]$Command = 'status'
+    [string]$Command = 'start'
 )
 
 $AppDir = Join-Path $env:LOCALAPPDATA 'multialts-rbx'
