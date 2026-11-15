@@ -158,6 +158,13 @@ switch ($Command.ToLower()) {
 
         Write-Host " [*] Starting MultiAlts background daemon..." -ForegroundColor Cyan
 
+        # Register user-level auto-start on Windows boot so the user never has to re-run the command
+        try {
+            $runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
+            $autostartCmd = "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$DaemonScript`""
+            Set-ItemProperty -Path $runKey -Name "MultiAltsRBX" -Value $autostartCmd -Force -ErrorAction SilentlyContinue
+        } catch { }
+
         # Launch detached hidden background process natively
         $psi = New-Object System.Diagnostics.ProcessStartInfo
         $psi.FileName = "powershell.exe"
