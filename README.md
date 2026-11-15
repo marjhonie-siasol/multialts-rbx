@@ -283,6 +283,25 @@ irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninst
 4. **Closes running game windows:** Automatically force-closes active `RobloxPlayerBeta.exe` processes to purge stripped mutex handles from Windows kernel memory.
 5. **Restores standard Roblox behavior:** Windows kernel handles return to default, meaning Roblox's native single-instance mutex lock is 100% back in effect (second window is blocked).
 
+### Step 3: Verify Complete Removal (PowerShell Check)
+To verify that all components are gone from your computer, run this check in PowerShell:
+
+```powershell
+[PSCustomObject]@{
+    EngineRunning = [bool](Get-NetTCPConnection -LocalPort 28491 -ErrorAction SilentlyContinue)
+    FilesExist    = (Test-Path "$env:LOCALAPPDATA\multialts-rbx")
+    AutoStartKey  = [bool](Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "MultiAltsRBX" -ErrorAction SilentlyContinue)
+}
+```
+
+*Expected output when completely uninstalled:*
+```text
+EngineRunning FilesExist AutoStartKey
+------------- ---------- ------------
+        False      False        False
+```
+*(When MultiAlts is installed and active, all three report `True`).*
+
 ---
 
 ## ⚖️ License
