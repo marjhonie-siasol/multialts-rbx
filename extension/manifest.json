@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "MultiAlts",
+  "version": "1.0.0",
+  "description": "Switch Roblox accounts and play on multiple windows simultaneously.",
+  "permissions": [
+    "cookies",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://localhost:28491/*",
+    "*://*.roblox.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.roblox.com/games/*",
+        "*://roblox.com/games/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

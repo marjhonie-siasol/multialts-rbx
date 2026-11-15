@@ -18,13 +18,31 @@ param(
     [string]$Command = 'status'
 )
 
-$RootDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$AppDir = Join-Path $env:LOCALAPPDATA 'multialts-rbx'
+$AppSrcDir = Join-Path $AppDir 'src'
+$PidFile = Join-Path $AppDir 'daemon.pid'
+$LogFile = Join-Path $AppDir 'daemon.log'
+
+# Determine root dir: check script parent, then current location, then AppData
+$RootDir = $null
+if ($MyInvocation.MyCommand.Path) {
+    $candidate = Split-Path -Parent $MyInvocation.MyCommand.Path
+    if ($candidate -and (Test-Path (Join-Path $candidate 'src\Daemon.ps1'))) {
+        $RootDir = $candidate
+    }
+}
+if (-not $RootDir) {
+    $cur = (Get-Location).Path
+    if (Test-Path (Join-Path $cur 'src\Daemon.ps1')) {
+        $RootDir = $cur
+    } else {
+        $RootDir = $AppDir
+    }
+}
+
 $DaemonScript = Join-Path $RootDir 'src\Daemon.ps1'
 $EnginePath = Join-Path $RootDir 'src\MultiAltsEngine.cs'
 $ConfigPath = Join-Path $RootDir 'config.json'
-$AppDir = Join-Path $env:LOCALAPPDATA 'multialts-rbx'
-$PidFile = Join-Path $AppDir 'daemon.pid'
-$LogFile = Join-Path $AppDir 'daemon.log'
 
 $port = 28491
 if (Test-Path $ConfigPath) {
@@ -33,6 +51,49 @@ if (Test-Path $ConfigPath) {
         if ($cfg.daemon.port) { $port = [int]$cfg.daemon.port }
     } catch {}
 }
+
+function Ensure-ComponentsAvailable {
+    if (-not (Test-Path $EnginePath) -or -not (Test-Path $DaemonScript)) {
+        if (-not (Test-Path $AppSrcDir)) { New-Item -ItemType Directory -Path $AppSrcDir -Force | Out-Null }
+        
+        # Check known local development paths first
+        $localSearchPaths = @(
+            "$HOME\OneDrive\Desktop\multialts-rbx",
+            "$HOME\Desktop\multialts-rbx"
+        )
+        $foundLocal = $false
+        foreach ($p in $localSearchPaths) {
+            $srcP = Join-Path $p 'src'
+            if (Test-Path (Join-Path $srcP 'MultiAltsEngine.cs')) {
+                Copy-Item -Path "$srcP\*" -Destination $AppSrcDir -Force -Recurse
+                $foundLocal = $true
+                break
+            }
+        }
+
+        # If not found locally, download from official repository
+        if (-not $foundLocal) {
+            $rawBase = "https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main"
+            try {
+                Invoke-WebRequest -Uri "$rawBase/src/Daemon.ps1" -OutFile (Join-Path $AppSrcDir 'Daemon.ps1') -UseBasicParsing -TimeoutSec 10
+                Invoke-WebRequest -Uri "$rawBase/src/MultiAltsEngine.cs" -OutFile (Join-Path $AppSrcDir 'MultiAltsEngine.cs') -UseBasicParsing -TimeoutSec 10
+                if (-not (Test-Path (Join-Path $AppDir 'config.json'))) {
+                    Invoke-WebRequest -Uri "$rawBase/config.json" -OutFile (Join-Path $AppDir 'config.json') -UseBasicParsing -ErrorAction SilentlyContinue
+                }
+            } catch {}
+        }
+
+        # Re-point to AppData components if they now exist
+        if (Test-Path (Join-Path $AppSrcDir 'Daemon.ps1')) {
+            $script:RootDir = $AppDir
+            $script:DaemonScript = Join-Path $AppSrcDir 'Daemon.ps1'
+            $script:EnginePath = Join-Path $AppSrcDir 'MultiAltsEngine.cs'
+            $script:ConfigPath = Join-Path $AppDir 'config.json'
+        }
+    }
+}
+
+Ensure-ComponentsAvailable
 
 function Ensure-EngineLoaded {
     if (-not ('MultiAlts.Core.MultiAltsEngine' -as [type])) {
@@ -73,6 +134,26 @@ switch ($Command.ToLower()) {
         if ($existing) {
             Write-Host " [!] Daemon is already active (PID: $($existing.Id))." -ForegroundColor Yellow
             return
+        }
+
+        # Auto-bootstrap files into AppData if running via Web on a fresh machine
+        if (-not (Test-Path $DaemonScript)) {
+            Write-Host " [*] Downloading MultiAlts engine components to AppData..." -ForegroundColor Cyan
+            if (-not (Test-Path $AppSrcDir)) { New-Item -ItemType Directory -Path $AppSrcDir -Force | Out-Null }
+            $rawBase = "https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main"
+            try {
+                Invoke-WebRequest -Uri "$rawBase/src/Daemon.ps1" -OutFile (Join-Path $AppSrcDir 'Daemon.ps1') -UseBasicParsing
+                Invoke-WebRequest -Uri "$rawBase/src/MultiAltsEngine.cs" -OutFile (Join-Path $AppSrcDir 'MultiAltsEngine.cs') -UseBasicParsing
+                if (-not (Test-Path (Join-Path $AppDir 'config.json'))) {
+                    Invoke-WebRequest -Uri "$rawBase/config.json" -OutFile (Join-Path $AppDir 'config.json') -UseBasicParsing -ErrorAction SilentlyContinue
+                }
+            } catch {
+                Write-Host " [-] Failed to download engine components: $($_.Exception.Message)" -ForegroundColor Red
+                return
+            }
+            $RootDir = $AppDir
+            $DaemonScript = Join-Path $AppDir 'src\Daemon.ps1'
+            $EnginePath = Join-Path $AppDir 'src\MultiAltsEngine.cs'
         }
 
         Write-Host " [*] Starting MultiAlts background daemon..." -ForegroundColor Cyan

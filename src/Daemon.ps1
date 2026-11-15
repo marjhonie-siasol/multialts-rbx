@@ -114,7 +114,7 @@ try {
 
                 $path = $req.Url.AbsolutePath.ToLowerInvariant()
 
-                if ($path -eq '/' -or $path -eq '/status') {
+                if ($path -eq '/' -or $path -eq '/status' -or $path -eq '/api/status') {
                     $instances = [MultiAlts.Core.MultiAltsEngine]::GetActiveInstancesSummary($targetProc)
                     $statusObj = @{
                         service = "multialts-rbx"
@@ -133,7 +133,7 @@ try {
                     $res.StatusCode = 200
                     $res.Close()
                 }
-                elseif ($path -eq '/unlock' -and $req.HttpMethod -eq 'POST') {
+                elseif (($path -eq '/unlock' -or $path -eq '/api/unlock') -and ($req.HttpMethod -eq 'POST' -or $req.HttpMethod -eq 'GET')) {
                     $closed = [MultiAlts.Core.MultiAltsEngine]::UnlockAllInstances($targetProc)
                     $respObj = @{ success = $true; closedHandles = $closed }
                     $json = $respObj | ConvertTo-Json

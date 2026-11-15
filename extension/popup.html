@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiAlts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup">
+        <!-- Top Bar with Unique Status Indicator -->
+        <header class="header-row">
+            <div class="brand-title-wrap">
+                <img src="icon48.png" alt="Logo" class="brand-logo">
+                <span class="brand-title">MultiAlts</span>
+            </div>
+            <!-- Unique Status Pill -->
+            <div class="status-pill" id="engineStatusPill">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Checking...</span>
+            </div>
+        </header>
+
+        <!-- Command Setup Card (Shown only if engine offline) -->
+        <section class="setup-card" id="setupBanner" style="display: none;">
+            <div class="setup-header">
+                <span class="setup-label">Engine Setup</span>
+                <a href="http://localhost:3000/#command" target="_blank" rel="noopener" class="setup-help-link" id="helpLink">What is this?</a>
+            </div>
+
+            <p class="setup-desc">
+                Paste into PowerShell to start the multi-account engine (no admin needed):
+            </p>
+
+            <div class="command-box">
+                <textarea readonly id="commandInput" class="command-text">powershell -ExecutionPolicy Bypass -Command "& { irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/multialts.ps1 | iex } -Command start"</textarea>
+            </div>
+
+            <div class="setup-actions">
+                <button class="btn-copy-main" id="copyCommandBtn">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    Copy Command
+                </button>
+                <a href="https://github.com/marjhonie-siasol/multialts-rbx" target="_blank" rel="noopener" class="btn-github-link" id="githubLink">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                    GitHub Code
+                </a>
+            </div>
+        </section>
+
+        <!-- Accounts Section -->
+        <section class="accounts-section">
+            <div class="accounts-head">
+                <span class="section-title">Accounts</span>
+                <button class="btn-add-account" id="addCurrentBtn">+ Add current</button>
+            </div>
+
+            <div class="accounts-list" id="accountsList">
+                <div class="empty-state" id="emptyState">No accounts saved</div>
+            </div>
+
+            <button class="btn-alt-login" id="newLoginBtn">+ Sign into Alt</button>
+        </section>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
