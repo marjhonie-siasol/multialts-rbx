@@ -42,11 +42,13 @@ try {
     }
 } catch { }
 
-# 4. Remove Windows autostart entry from Registry
+# 4. Remove Windows autostart entries from Registry
 try {
     $runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
     Remove-ItemProperty -Path $runKey -Name "MultiAltsRBX" -ErrorAction SilentlyContinue
-    Write-Host " [+] Windows startup entry removed." -ForegroundColor Green
+    Remove-ItemProperty -Path $runKey -Name "multialts-server" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path $runKey -Name "rbxmulti-server" -ErrorAction SilentlyContinue
+    Write-Host " [+] Windows startup entries removed." -ForegroundColor Green
 } catch { }
 
 # 5. Remove Desktop shortcut if created
@@ -63,7 +65,17 @@ if (Test-Path $AppDir) {
     Write-Host " [+] AppData files deleted ($AppDir)." -ForegroundColor Green
 }
 
-# 7. Optionally close lingering ghost crash handlers
+# 7. Close all active Roblox game windows to clear stripped mutexes from memory
+$closedGames = 0
+Get-Process -Name "*RobloxPlayerBeta*" -ErrorAction SilentlyContinue | ForEach-Object {
+    Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
+    $closedGames++
+}
+if ($closedGames -gt 0) {
+    Write-Host " [+] Closed $closedGames running Roblox game window(s) to reset singleton locks." -ForegroundColor Green
+}
+
+# 8. Close lingering ghost crash handlers
 Get-Process -Name "*RobloxCrashHandler*" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 
 Write-Host ""

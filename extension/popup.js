@@ -107,35 +107,74 @@ function bindEvents() {
     if (altBtn) altBtn.onclick = signIntoAlt;
 }
 
+// Auto-detect active Roblox browser account silently without requiring clicks
+async function autoDetectActiveAccount(currentAccounts) {
+    try {
+        const currentCookie = await chrome.cookies.get({
+            url: 'https://www.roblox.com',
+            name: '.ROBLOSECURITY'
+        });
+        if (!currentCookie || !currentCookie.value) return { accounts: currentAccounts, activeUserId: null };
+
+        // Check if cookie matches an existing account
+        const existing = currentAccounts.find(a => a.cookie === currentCookie.value);
+        if (existing) {
+            return { accounts: currentAccounts, activeUserId: existing.id };
+        }
+
+        // Active cookie not saved yet: fetch user info
+        const userRes = await fetch('https://users.roblox.com/v1/users/authenticated', {
+            credentials: 'include'
+        });
+        if (!userRes.ok) return { accounts: currentAccounts, activeUserId: null };
+
+        const user = await userRes.json();
+        if (!user || !user.id) return { accounts: currentAccounts, activeUserId: null };
+
+        let avatarUrl = '';
+        try {
+            const thumbRes = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${user.id}&size=48x48&format=Png&isCircular=true`);
+            const thumbData = await thumbRes.json();
+            if (thumbData.data && thumbData.data[0]) {
+                avatarUrl = thumbData.data[0].imageUrl;
+            }
+        } catch (_) {}
+
+        const updated = currentAccounts.filter(a => a.id !== user.id);
+        updated.push({
+            id: user.id,
+            name: user.name,
+            displayName: user.displayName,
+            cookie: currentCookie.value,
+            avatarUrl: avatarUrl
+        });
+
+        await chrome.storage.local.set({ accounts: updated, activeUserId: user.id });
+        return { accounts: updated, activeUserId: user.id };
+    } catch (_) {
+        return { accounts: currentAccounts, activeUserId: null };
+    }
+}
+
 // 3. Load Accounts with Real-Time Online / Playing / Offline Status
 async function loadAccounts() {
     const data = await chrome.storage.local.get(['accounts', 'activeUserId', 'playingUsers']);
-    const accounts = data.accounts || [];
+    let accounts = data.accounts || [];
     let activeUserId = data.activeUserId || null;
     let playingUsers = data.playingUsers || {};
 
     const list = document.getElementById('accountsList');
     if (!list) return;
 
+    // Automatically detect and save logged-in Roblox account or Alt
+    const detected = await autoDetectActiveAccount(accounts);
+    accounts = detected.accounts;
+    if (detected.activeUserId) activeUserId = detected.activeUserId;
+
     if (accounts.length === 0) {
-        list.innerHTML = `<div class="empty-state">No accounts saved</div>`;
+        list.innerHTML = `<div class="empty-state">No accounts saved. Sign into Roblox to begin.</div>`;
         return;
     }
-
-    // Identify which account matches active browser cookie right now
-    try {
-        const currentCookie = await chrome.cookies.get({
-            url: 'https://www.roblox.com',
-            name: '.ROBLOSECURITY'
-        });
-        if (currentCookie && currentCookie.value) {
-            const matched = accounts.find(a => a.cookie === currentCookie.value);
-            if (matched) {
-                activeUserId = matched.id;
-                await chrome.storage.local.set({ activeUserId });
-            }
-        }
-    } catch (_) {}
 
     // Fetch live presence from Roblox Presence API
     const userIds = accounts.map(a => a.id).filter(Boolean);
@@ -145,6 +184,7 @@ async function loadAccounts() {
             const presRes = await fetch('https://presence.roblox.com/v1/presence/users', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ userIds })
             });
             if (presRes.ok) {

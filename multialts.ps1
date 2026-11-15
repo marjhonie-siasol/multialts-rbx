@@ -361,6 +361,8 @@ switch ($Command.ToLower()) {
         # Remove autostart registry
         $runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
         Remove-ItemProperty -Path $runKey -Name "MultiAltsRBX" -ErrorAction SilentlyContinue
+        Remove-ItemProperty -Path $runKey -Name "multialts-server" -ErrorAction SilentlyContinue
+        Remove-ItemProperty -Path $runKey -Name "rbxmulti-server" -ErrorAction SilentlyContinue
 
         # Remove desktop shortcut
         $desktopPath = [Environment]::GetFolderPath("Desktop")
@@ -373,6 +375,19 @@ switch ($Command.ToLower()) {
         if (Test-Path $AppDir) {
             Remove-Item $AppDir -Recurse -Force -ErrorAction SilentlyContinue
         }
+
+        # Close all active Roblox game windows to clear stripped mutexes
+        $closedGames = 0
+        Get-Process -Name "*RobloxPlayerBeta*" -ErrorAction SilentlyContinue | ForEach-Object {
+            Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
+            $closedGames++
+        }
+        if ($closedGames -gt 0) {
+            Write-Host " [+] Closed $closedGames running Roblox game window(s) to reset singleton locks." -ForegroundColor Green
+        }
+
+        # Close crash handlers
+        Get-Process -Name "*RobloxCrashHandler*" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 
         Write-Host " [+] MultiAlts RBX has been completely removed." -ForegroundColor Green
     }

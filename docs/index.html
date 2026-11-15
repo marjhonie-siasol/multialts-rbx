@@ -743,7 +743,7 @@
                         </div>
                         <h3 class="step-title">Run Clean Uninstaller</h3>
                         <p class="step-text">
-                            Open Windows PowerShell and paste the one-line uninstaller below. It terminates the background engine, deletes the Windows startup entry, and wipes AppData runtime files.
+                            Open Windows PowerShell and paste the one-line uninstaller below. It terminates the background engine, deletes the Windows startup entry, wipes AppData files, and automatically closes all open Roblox game windows to purge stripped mutexes from memory.
                         </p>
                     </div>
 
@@ -790,7 +790,11 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 16px; font-size: 0.84rem; color: var(--text-muted); text-align: center;">
+                <div class="uninstall-notice-box" style="margin-top: 20px; padding: 14px 18px; background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 10px; font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+                    <strong style="color: #f59e0b;">Automatic Window Cleanup:</strong> When executing the uninstaller, all currently running Roblox game windows are automatically closed. This ensures that any stripped mutex handles in Windows kernel memory are completely purged so that Roblox immediately returns to its default single-window behavior.
+                </div>
+
+                <div style="margin-top: 14px; font-size: 0.84rem; color: var(--text-muted); text-align: center;">
                     Downloaded the files locally? You can also simply double-click <code>uninstall.cmd</code> or run <code>.\uninstall.ps1</code>.
                 </div>
 
@@ -851,7 +855,7 @@
                             <br><br>
                             <code>irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1 | iex</code>
                             <br><br>
-                            For full step-by-step instructions, see the <a href="#uninstall" style="color: var(--accent); text-decoration: underline;">Uninstallation Guide</a>.
+                            This stops the background engine, wipes AppData, removes the Windows autostart entry, and automatically closes all open Roblox windows to flush mutexes and return Roblox to standard single-instance mode. For full details, see the <a href="#uninstall" style="color: var(--accent); text-decoration: underline;">Uninstallation Guide</a>.
                         </p>
                     </div>
                 </div>
