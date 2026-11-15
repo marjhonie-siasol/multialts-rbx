@@ -30,7 +30,9 @@ Most multi-accounting setups rely on heavy virtualization, generic Android emula
 
 ## ✨ Features
 
-- **Unified CLI Interface:** Control everything (`start`, `stop`, `status`, `unlock`, `watch`) through a single command: `.\multialts.ps1` or double-clicking `multialts.cmd`.
+- **Unified CLI Interface:** Control everything (`start`, `stop`, `status`, `unlock`, `watch`) through a single command: `.\multialts.ps1` or double-clicking `install.cmd` / `uninstall.cmd`.
+- **Auto-Account Detection:** The browser extension automatically detects your logged-in Roblox account and alts, adding them to your vault silently without requiring manual button clicks.
+- **Real-Time Presence Badges & Emerald Rings:** Live `Playing`, `Online`, and `Offline` badges with glowing emerald avatar profile rings displayed across all concurrent game windows simultaneously.
 - **Live Real-Time Dashboard:** View all active Roblox client instances, PIDs, memory usage in MB, start timestamps, and lock status right in your terminal.
 - **Zero VBScript:** Fully modernized for Windows 10 & 11 (VBScript-free, future-proof).
 - **Dual-Engine Auto-Closer:** High-frequency handle stripper engine written in pure C# (`src/MultiAltsEngine.cs`) that removes singleton locks (`ROBLOX_singletonMutex` and `ROBLOX_singletonEvent`) without interfering with game processes.
@@ -278,7 +280,8 @@ irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninst
 1. **Terminates background processes:** Stops the background engine and frees port `28491`.
 2. **Removes Windows startup entry:** Deletes `HKCU:\Software\Microsoft\Windows\CurrentVersion\Run\MultiAltsRBX`.
 3. **Deletes runtime files:** Wipes `%LOCALAPPDATA%\multialts-rbx` and removes any desktop shortcuts.
-4. **Restores standard Roblox behavior:** Windows kernel handles remain untouched, meaning Roblox's native single-instance mutex lock is 100% back in effect (second window is blocked).
+4. **Closes running game windows:** Automatically force-closes active `RobloxPlayerBeta.exe` processes to purge stripped mutex handles from Windows kernel memory.
+5. **Restores standard Roblox behavior:** Windows kernel handles return to default, meaning Roblox's native single-instance mutex lock is 100% back in effect (second window is blocked).
 
 ---
 
