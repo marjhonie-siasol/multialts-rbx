@@ -167,40 +167,42 @@ document.addEventListener('DOMContentLoaded', () => {
                         const zipUrl = zipAsset ? zipAsset.browser_download_url : rel.zipball_url;
                         const zipSize = zipAsset ? `${(zipAsset.size / 1024).toFixed(0)} KB` : 'Source Zip';
 
-                        const card = document.createElement('div');
-                        card.className = `release-card ${idx === 0 ? 'github-live-release' : 'archive-release'}`;
-                        card.style.marginTop = '20px';
+                        const card = document.createElement('article');
+                        card.className = 'release-item release-archive';
                         card.innerHTML = `
-                            <div class="release-topbar">
-                                <div class="release-identity">
-                                    <span class="release-version">${rel.tag_name || rel.name}</span>
-                                    <span class="release-status-badge ${rel.prerelease ? 'archive' : 'latest'}">
-                                        ${rel.prerelease ? 'Prerelease' : 'GitHub Release'}
+                            <div class="release-header">
+                                <div class="release-meta-left">
+                                    <span class="release-tag">${rel.tag_name || rel.name}</span>
+                                    <span class="release-badge ${rel.prerelease ? 'badge-archive' : 'badge-latest'}">
+                                        ${rel.prerelease ? 'Pre-release' : 'GitHub Release'}
                                     </span>
+                                    <span class="release-date">${dateFormatted}</span>
                                 </div>
-                                <div class="release-date">
-                                    Published: ${dateFormatted}
-                                </div>
-                            </div>
-                            <div class="release-main-content">
-                                <h3 class="release-headline">${rel.name || rel.tag_name}</h3>
-                                <p class="release-summary">${rel.body ? rel.body.substring(0, 200) + '...' : 'Release published via GitHub.'}</p>
-                                <div class="release-download-group">
+                                <div class="release-actions">
                                     <a href="${zipUrl}" class="btn-release-download">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                            <polyline points="7 10 12 15 17 10"/>
+                                            <line x1="12" y1="15" x2="12" y2="3"/>
+                                        </svg>
                                         <span>Download .zip</span>
-                                        <span class="file-size-tag">${zipSize}</span>
+                                        <span class="release-filesize">${zipSize}</span>
                                     </a>
                                     <a href="${rel.html_url}" target="_blank" rel="noopener" class="btn-release-github">
                                         <span>View on GitHub</span>
                                     </a>
                                 </div>
                             </div>
+                            <div class="release-body">
+                                <h3 class="release-title">${rel.name || rel.tag_name}</h3>
+                                <p class="release-summary">${rel.body ? rel.body.substring(0, 300) : 'Official release published on GitHub.'}</p>
+                            </div>
                         `;
                         dynamicArea.appendChild(card);
                     });
                 }
             } else {
-                if (syncText) syncText.innerText = 'Connected to GitHub • Local Archive Active';
+                if (syncText) syncText.innerText = 'Connected to GitHub - Local Archive Active';
             }
         } catch (err) {
             console.log('GitHub API offline or rate-limited, showing local archive.', err);
