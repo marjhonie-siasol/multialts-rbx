@@ -72,6 +72,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Lifecycle / Uninstall & Verify Section Copy Buttons
+    const bindCopyButton = (buttonId, textToCopy) => {
+        const btn = document.getElementById(buttonId);
+        if (!btn) return;
+        const btnSpan = btn.querySelector('span');
+
+        btn.addEventListener('click', () => {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btnSpan ? btnSpan.innerText : btn.innerText;
+                if (btnSpan) btnSpan.innerText = 'Copied!';
+                else btn.innerText = 'Copied!';
+                btn.style.background = 'rgba(255, 255, 255, 0.22)';
+                btn.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                btn.style.color = '#ffffff';
+
+                setTimeout(() => {
+                    if (btnSpan) btnSpan.innerText = originalText;
+                    else btn.innerText = originalText;
+                    btn.style.background = '';
+                    btn.style.borderColor = '';
+                    btn.style.color = '';
+                }, 2200);
+            }).catch(err => {
+                console.error('Clipboard copy failed:', err);
+            });
+        });
+    };
+
+    bindCopyButton('lifecycleUninstallCopyBtn', 'irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1 | iex');
+    const verifyScriptCmd = '[PSCustomObject]@{\n    EngineRunning = [bool](Get-NetTCPConnection -LocalPort 28491 -ErrorAction SilentlyContinue)\n    FilesExist    = (Test-Path "$env:LOCALAPPDATA\\multialts-rbx")\n    AutoStartKey  = [bool](Get-ItemProperty "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" -Name "MultiAltsRBX" -ErrorAction SilentlyContinue)\n}';
+    bindCopyButton('verifyInstallCopyBtn', verifyScriptCmd);
+    bindCopyButton('verifyUninstallCopyBtn', verifyScriptCmd);
+
+    // Commands Overview Section Copy Buttons
+    bindCopyButton('cmdOverviewInstallBtn', 'irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/install.ps1 | iex');
+    bindCopyButton('cmdOverviewVerifyBtn', verifyScriptCmd);
+    bindCopyButton('cmdOverviewUninstallBtn', 'irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1 | iex');
+
     // Smooth scroll for in-page anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -210,6 +248,58 @@ document.addEventListener('DOMContentLoaded', () => {
                         card.style.transform = 'translateX(20px)';
                         setTimeout(() => card.remove(), 180);
                     }
+                }
+            });
+        });
+    }
+
+    // Setup Step Image Lightbox Modal
+    const setupImageFrames = document.querySelectorAll('.step-img-frame');
+    if (setupImageFrames.length > 0) {
+        const modal = document.createElement('div');
+        modal.className = 'lightbox-modal';
+        modal.innerHTML = `
+            <div class="lightbox-content">
+                <button class="lightbox-close" type="button" aria-label="Close preview">✕</button>
+                <img class="lightbox-img" src="" alt="Enlarged setup screenshot">
+                <div class="lightbox-caption"></div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        const modalImg = modal.querySelector('.lightbox-img');
+        const modalCaption = modal.querySelector('.lightbox-caption');
+        const closeBtn = modal.querySelector('.lightbox-close');
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modalImg.src = '';
+                modalCaption.innerText = '';
+            }, 180);
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal || e.target.classList.contains('lightbox-content')) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        setupImageFrames.forEach(frame => {
+            frame.addEventListener('click', () => {
+                const img = frame.querySelector('.step-img');
+                if (img) {
+                    modalImg.src = img.src;
+                    modalImg.alt = img.alt;
+                    modalCaption.innerText = img.alt || '';
+                    modal.classList.add('active');
                 }
             });
         });

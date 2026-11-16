@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 
@@ -25,6 +25,8 @@
                 <a href="#hero" class="nav-item">Overview</a>
                 <a href="#features" class="nav-item">Features</a>
                 <a href="#setup" class="nav-item">Setup</a>
+                <a href="#uninstall" class="nav-item">Uninstall</a>
+                <a href="#commands" class="nav-item">Commands</a>
                 <a href="#faq" class="nav-item">FAQ</a>
             </nav>
 
@@ -435,7 +437,7 @@
             <div class="section-inner">
                 <div class="section-header">
                     <h2 class="section-heading">How to set up</h2>
-                    <p class="section-subtext">Under 60 seconds. Follow the steps for each component:</p>
+                    <p class="section-subtext">Follow the steps for each component:</p>
                 </div>
 
                 <div class="setup-columns">
@@ -451,24 +453,60 @@
                             <li class="timeline-step">
                                 <div class="step-marker">1</div>
                                 <div class="step-body">
-                                    <h4 class="step-title">Download and extract the .zip</h4>
-                                    <p class="step-desc">Click <strong>Download Extension (.zip)</strong> and unzip the archive to a folder on your computer.</p>
+                                    <h4 class="step-title">Download the extension .zip</h4>
+                                    <p class="step-desc">Go to the website and click <strong>Download Extension (.zip)</strong> to download the extension archive.</p>
+                                    <div class="step-img-frame" title="Click to view full screenshot">
+                                        <img src="assets/setup/extension.1.png" alt="Step 1: Download Extension .zip from the website" class="step-img" loading="lazy">
+                                        <div class="step-img-caption">
+                                            <span>Step 1: Download .zip</span>
+                                            <span>Click to expand</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
 
                             <li class="timeline-step">
                                 <div class="step-marker">2</div>
                                 <div class="step-body">
-                                    <h4 class="step-title">Load unpacked in Chrome</h4>
-                                    <p class="step-desc">Navigate to <code>chrome://extensions</code>, turn on <strong>Developer mode</strong> (top right), and click <strong>Load unpacked</strong>.</p>
+                                    <h4 class="step-title">Open Manage extensions in Chrome</h4>
+                                    <p class="step-desc">In your browser, click the <strong>⋮ (three dots)</strong> menu at the top right, hover over <strong>Extensions</strong>, and select <strong>Manage extensions</strong> (or go to <code>chrome://extensions</code>).</p>
+                                    <div class="step-img-frame" title="Click to view full screenshot">
+                                        <img src="assets/setup/extension.2.png" alt="Step 2: Open Chrome menu, hover over Extensions, and click Manage extensions" class="step-img" loading="lazy">
+                                        <div class="step-img-caption">
+                                            <span>Step 2: Manage extensions</span>
+                                            <span>Click to expand</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
 
                             <li class="timeline-step">
                                 <div class="step-marker">3</div>
                                 <div class="step-body">
-                                    <h4 class="step-title">Save your accounts</h4>
-                                    <p class="step-desc">Click the MultiAlts icon in your browser toolbar and click <strong>+ Add current</strong> to save each account.</p>
+                                    <h4 class="step-title">Enable Developer mode &amp; drag the .zip</h4>
+                                    <p class="step-desc">Turn on <strong>Developer mode</strong> at the top right of the extensions page. Drag and drop the downloaded <code>multialts-extension.zip</code> file directly into the window to install.</p>
+                                    <div class="step-img-frame" title="Click to view full screenshot">
+                                        <img src="assets/setup/extension.3.png" alt="Step 3: Turn on Developer mode and drag the downloaded .zip to install" class="step-img" loading="lazy">
+                                        <div class="step-img-caption">
+                                            <span>Step 3: Drag &amp; drop to install</span>
+                                            <span>Click to expand</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="timeline-step">
+                                <div class="step-marker">4</div>
+                                <div class="step-body">
+                                    <h4 class="step-title">Add your Roblox accounts &amp; view quick guides</h4>
+                                    <p class="step-desc">Click the MultiAlts icon in your browser toolbar. Click <strong>+ Add Roblox Account</strong> for each account you want to store. You can also view the built-in PowerShell engine and uninstall guides below the button. Next, follow the PowerShell steps on the right!</p>
+                                    <div class="step-img-frame" title="Click to view full screenshot">
+                                        <img src="assets/setup/extension.4.png" alt="Step 4: Extension installed - add Roblox accounts and view quick guides" class="step-img" loading="lazy">
+                                        <div class="step-img-caption">
+                                            <span>Step 4: MultiAlts installed &amp; ready</span>
+                                            <span>Click to expand</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         </ol>
@@ -478,31 +516,63 @@
                     <div class="setup-col">
                         <div class="setup-col-header">
                             <h3 class="setup-col-title">PowerShell Setup</h3>
-                            <p class="setup-col-subtitle">Required on Windows so games can open side-by-side.</p>
+                            <p class="setup-col-subtitle">Required on Windows so multiple Roblox clients can run at the same time.</p>
                         </div>
 
                         <ol class="setup-timeline">
                             <li class="timeline-step">
                                 <div class="step-marker">1</div>
                                 <div class="step-body">
-                                    <h4 class="step-title">Open Windows PowerShell</h4>
-                                    <p class="step-desc">Press your Windows key, type <strong>PowerShell</strong>, and open the app.</p>
+                                    <h4 class="step-title">Copy the install command</h4>
+                                    <p class="step-desc">In the PowerShell terminal box on the website, click <strong>Copy Command</strong> to copy the one-line install command.</p>
+                                    <div class="step-img-frame" title="Click to view full screenshot">
+                                        <img src="assets/setup/powershell.1.png" alt="Step 1: Click Copy Command on the PowerShell install terminal" class="step-img" loading="lazy">
+                                        <div class="step-img-caption">
+                                            <span>Step 1: Copy install command</span>
+                                            <span>Click to expand</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
 
                             <li class="timeline-step">
                                 <div class="step-marker">2</div>
                                 <div class="step-body">
-                                    <h4 class="step-title">Paste the install command</h4>
-                                    <p class="step-desc">Copy the Install command from the terminal box above, paste it into PowerShell, and press Enter.</p>
+                                    <h4 class="step-title">Run in standard Windows PowerShell</h4>
+                                    <p class="step-desc">Open Windows PowerShell (no administrator privileges needed). Paste the command and press <strong>Enter</strong> to start the MultiAlts background engine.</p>
+                                    <div class="step-img-frame" title="Click to view full screenshot">
+                                        <img src="assets/setup/powershell.2.png" alt="Step 2: Paste the command in PowerShell and press Enter" class="step-img" loading="lazy">
+                                        <div class="step-img-caption">
+                                            <span>Step 2: Run in PowerShell</span>
+                                            <span>Click to expand</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
 
                             <li class="timeline-step">
                                 <div class="step-marker">3</div>
                                 <div class="step-body">
-                                    <h4 class="step-title">Launch and play</h4>
-                                    <p class="step-desc">Open Account 1 and click Play. Switch to Account 2 and click Play. Both game windows stay open at the same time.</p>
+                                    <h4 class="step-title">Launch &amp; play multiple accounts</h4>
+                                    <p class="step-desc">Switch accounts using the MultiAlts extension (or Roblox’s native account switcher for up to 5 alts) and press Play on each. Every Roblox instance runs in its own window simultaneously with native performance!</p>
+                                    <div class="step-img-frame" title="Click to view full screenshot">
+                                        <img src="assets/setup/gameplay.png" alt="Step 3: Multiple Roblox games running side-by-side simultaneously" class="step-img" loading="lazy">
+                                        <div class="step-img-caption">
+                                            <span>Step 3: 4 Roblox windows running</span>
+                                            <span>Click to expand</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Game Credits Card -->
+                                    <div class="setup-credits-card">
+                                        <span class="credits-label">Featured Roblox Games in Screenshot:</span>
+                                        <div class="credits-tags">
+                                            <span class="credit-pill">Cliffbound: Rock Climbing</span>
+                                            <span class="credit-pill">Dig to Escape</span>
+                                            <span class="credit-pill">Steal a Balut</span>
+                                            <span class="credit-pill">Steal a Superpower</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         </ol>
@@ -512,7 +582,272 @@
             </div>
         </section>
 
-        <!-- Section 4: FAQ -->
+        <!-- Section 4: Uninstallation & Verification (Exact same clean 2-column design style as Setup) -->
+        <section class="section-boundary" id="uninstall">
+            <div class="section-inner">
+                <div class="section-header">
+                    <h2 class="section-heading">Uninstallation &amp; Verification</h2>
+                    <p class="section-subtext">Revert back to standard single-instance Roblox anytime, or verify your engine status in PowerShell.</p>
+                </div>
+
+                <div class="setup-columns">
+                    
+                    <!-- Left Column: Engine Uninstallation -->
+                    <div class="setup-col">
+                        <div class="setup-col-header">
+                            <h3 class="setup-col-title">Engine Uninstallation</h3>
+                            <p class="setup-col-subtitle">Restore default single-window Roblox and remove all background engine files.</p>
+                        </div>
+
+                        <ol class="setup-timeline">
+                            <li class="timeline-step">
+                                <div class="step-marker">1</div>
+                                <div class="step-body">
+                                    <h4 class="step-title">Copy the uninstall command</h4>
+                                    <p class="step-desc">Click <strong>Copy Command</strong> on the uninstaller terminal on the website, or copy the command directly below:</p>
+                                    <button class="btn-copy-inline" id="lifecycleUninstallCopyBtn" type="button" title="Copy uninstall command">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                        </svg>
+                                        <span>Copy Uninstall Command</span>
+                                    </button>
+                                    <div class="step-img-frame" title="Click to view full screenshot">
+                                        <img src="assets/setup/uninstall.copy.png" alt="Step 1: Click Copy Command on the uninstaller terminal" class="step-img" loading="lazy">
+                                        <div class="step-img-caption">
+                                            <span>Step 1: Copy uninstall command</span>
+                                            <span>Click to expand</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="timeline-step">
+                                <div class="step-marker">2</div>
+                                <div class="step-body">
+                                    <h4 class="step-title">Paste &amp; run in PowerShell</h4>
+                                    <p class="step-desc">Open Windows PowerShell normally (no administrator needed). Paste the command and press <strong>Enter</strong> to safely remove the engine, delete AppData files, and restore standard single-instance Roblox.</p>
+                                    <div class="step-img-frame" title="Click to view full screenshot">
+                                        <img src="assets/setup/uninstall.png" alt="Step 2: Paste command in PowerShell and press Enter to uninstall" class="step-img" loading="lazy">
+                                        <div class="step-img-caption">
+                                            <span>Step 2: Paste &amp; run in PowerShell</span>
+                                            <span>Click to expand</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- Right Column: Status Verification -->
+                    <div class="setup-col">
+                        <div class="setup-col-header">
+                            <h3 class="setup-col-title">Status Verification</h3>
+                            <p class="setup-col-subtitle">Check whether the engine is active or completely removed from your system.</p>
+                        </div>
+
+                        <ol class="setup-timeline">
+                            <li class="timeline-step">
+                                <div class="step-marker">1</div>
+                                <div class="step-body">
+                                    <h4 class="step-title">Verify engine is active (True True True)</h4>
+                                    <p class="step-desc">Run the PowerShell status check below. When active, all three properties return <strong>True True True</strong> for EngineRunning, FilesExist, and AutoStartKey.</p>
+                                    <button class="btn-copy-inline" id="verifyInstallCopyBtn" type="button" title="Copy verification command">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                        </svg>
+                                        <span>Copy Verification Check</span>
+                                    </button>
+                                    <div class="step-img-frame" title="Click to view full screenshot">
+                                        <img src="assets/setup/verify.install.png" alt="PowerShell verification output showing True True True for active engine" class="step-img" loading="lazy">
+                                        <div class="step-img-caption">
+                                            <span>Active: True True True (Engine Running)</span>
+                                            <span>Click to expand</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="timeline-step">
+                                <div class="step-marker">2</div>
+                                <div class="step-body">
+                                    <h4 class="step-title">Verify engine is removed (False False False)</h4>
+                                    <p class="step-desc">After running the uninstaller, the same PowerShell check returns <strong>False False False</strong>, confirming port 28491 is closed, files are deleted, and startup keys are removed.</p>
+                                    <button class="btn-copy-inline" id="verifyUninstallCopyBtn" type="button" title="Copy verification command">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                        </svg>
+                                        <span>Copy Verification Check</span>
+                                    </button>
+                                    <div class="step-img-frame" title="Click to view full screenshot">
+                                        <img src="assets/setup/verify.uninstall.png" alt="PowerShell verification output showing False False False after uninstallation" class="step-img" loading="lazy">
+                                        <div class="step-img-caption">
+                                            <span>Cleanly removed: False False False</span>
+                                            <span>Click to expand</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Commands Overview -->
+        <section class="section-boundary" id="commands">
+            <div class="section-inner">
+                <div class="section-header">
+                    <h2 class="section-heading">Commands Overview</h2>
+                    <p class="section-subtext">A complete reference of all one-line scripts, CLI controller commands, and maintenance tools available in MultiAlts.</p>
+                </div>
+
+                <!-- Part 1: Quick-Start Web & Terminal Commands -->
+                <div class="commands-group">
+                    <div class="commands-group-header">
+                        <h3 class="commands-group-title">Quick-Start Commands</h3>
+                        <p class="commands-group-desc">One-line PowerShell commands you can copy and run directly without cloning the repository.</p>
+                    </div>
+
+                    <div class="commands-quick-grid">
+                        <!-- Install Command Card -->
+                        <div class="command-card">
+                            <div class="command-card-header">
+                                <span class="command-badge badge-install">Install &amp; Start</span>
+                                <button class="btn-copy-inline" id="cmdOverviewInstallBtn" type="button" title="Copy install command">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <h4 class="command-card-title">Install Engine &amp; Launch Daemon</h4>
+                            <p class="command-card-desc">Downloads runtime components into AppData, registers auto-start on boot, and launches the background daemon immediately.</p>
+                            <div class="command-code-box">
+                                <code>irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/install.ps1 | iex</code>
+                            </div>
+                        </div>
+
+                        <!-- Status Check Card -->
+                        <div class="command-card">
+                            <div class="command-card-header">
+                                <span class="command-badge badge-verify">Status Check</span>
+                                <button class="btn-copy-inline" id="cmdOverviewVerifyBtn" type="button" title="Copy status check command">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <h4 class="command-card-title">Verify Engine Status</h4>
+                            <p class="command-card-desc">Inspects port 28491, AppData engine files, and Windows startup registry keys. Returns True True True when active, False False False when uninstalled.</p>
+                            <div class="command-code-box">
+                                <code>[PSCustomObject]@{ EngineRunning = [bool](Get-NetTCPConnection -LocalPort 28491 -ErrorAction SilentlyContinue); FilesExist = (Test-Path "$env:LOCALAPPDATA\multialts-rbx"); AutoStartKey = [bool](Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "MultiAltsRBX" -ErrorAction SilentlyContinue) }</code>
+                            </div>
+                        </div>
+
+                        <!-- Uninstall Command Card -->
+                        <div class="command-card">
+                            <div class="command-card-header">
+                                <span class="command-badge badge-uninstall">Uninstall</span>
+                                <button class="btn-copy-inline" id="cmdOverviewUninstallBtn" type="button" title="Copy uninstall command">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <h4 class="command-card-title">Complete Engine Uninstaller</h4>
+                            <p class="command-card-desc">Stops background daemon, deletes AppData files, removes startup entries, closes open clients to clear mutexes, and restores default single-instance mode.</p>
+                            <div class="command-code-box">
+                                <code>irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1 | iex</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 2: Unified CLI Reference Table -->
+                <div class="commands-group">
+                    <div class="commands-group-header">
+                        <h3 class="commands-group-title">Unified CLI Reference</h3>
+                        <p class="commands-group-desc">Available commands when managing MultiAlts through the local controller script (<code>.\multialts.ps1 &lt;command&gt;</code>) or desktop launcher.</p>
+                    </div>
+
+                    <div class="commands-table-wrapper">
+                        <table class="commands-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 28%;">Command</th>
+                                    <th style="width: 44%;">Action &amp; Function</th>
+                                    <th style="width: 28%;">When to Use</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>.\multialts.ps1 status</code></td>
+                                    <td>Displays daemon health, active port, and a table of running Roblox instances with PIDs, RAM usage, and unlock state.</td>
+                                    <td>Whenever you want to check farm health or see memory usage.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.\multialts.ps1 start</code></td>
+                                    <td>Launches the background unlocker service silently with high-frequency 350ms lock-clearing.</td>
+                                    <td>At the start of a gaming session.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.\multialts.ps1 stop</code></td>
+                                    <td>Signals graceful HTTP shutdown and terminates the background watcher process.</td>
+                                    <td>When finished playing or halting background monitoring.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.\multialts.ps1 restart</code></td>
+                                    <td>Stops and restarts the background daemon.</td>
+                                    <td>After updating settings in <code>config.json</code>.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.\multialts.ps1 unlock</code></td>
+                                    <td>Performs an immediate manual one-shot mutex handle sweep across all active instances.</td>
+                                    <td>If a window opened before the daemon started.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.\multialts.ps1 watch</code></td>
+                                    <td>Runs an interactive foreground live watcher showing active instances and handle strip cycles every 2s.</td>
+                                    <td>For live console monitoring or troubleshooting.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.\multialts.ps1 clean</code></td>
+                                    <td>Safely scans and terminates orphaned ghost <code>RobloxCrashHandler.exe</code> processes.</td>
+                                    <td>If a previous game crashed and left background ghost tasks.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.\multialts.ps1 kill-all</code></td>
+                                    <td>Force-closes all running <code>RobloxPlayerBeta.exe</code> game clients and crash handlers immediately.</td>
+                                    <td>At night or when resetting all game instances to zero.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.\multialts.ps1 install</code></td>
+                                    <td>Copies runtime files to AppData, sets up Windows boot auto-start, and creates a desktop shortcut.</td>
+                                    <td>For permanent local system installation.</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.\multialts.ps1 uninstall</code></td>
+                                    <td>Removes all files, startup registry entries, shortcuts, and restores default single-window Roblox.</td>
+                                    <td>To completely purge MultiAlts from your PC.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 6: FAQ -->
         <section class="section-boundary" id="faq">
             <div class="section-inner">
                 <div class="section-header">
@@ -563,6 +898,8 @@
                     <a href="#hero">Overview</a>
                     <a href="#features">Features</a>
                     <a href="#setup">Setup</a>
+                    <a href="#uninstall">Uninstall &amp; Verify</a>
+                    <a href="#commands">Commands</a>
                     <a href="#faq">FAQ</a>
                 </div>
                 <div class="footer-group">
@@ -576,6 +913,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=8"></script>
 </body>
 </html>
