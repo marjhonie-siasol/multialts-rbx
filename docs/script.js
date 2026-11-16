@@ -127,14 +127,114 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // GitHub Releases Integration & Auto-Sync
-    const syncText = document.getElementById('syncText');
-    const dynamicArea = document.getElementById('dynamicReleasesArea');
+    // Lightweight markdown parser for GitHub release notes
+    function parseReleaseMarkdown(md) {
+        if (!md) return '<p class="release-notes-p">Release published via GitHub.</p>';
+        
+        // Escape HTML entities for safety
+        let text = md
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
 
+        // Headings
+        text = text.replace(/^#### (.*?)$/gm, '<h5 class="release-notes-h5">$1</h5>');
+        text = text.replace(/^### (.*?)$/gm, '<h4 class="release-notes-h4">$1</h4>');
+        text = text.replace(/^## (.*?)$/gm, '<h3 class="release-notes-h3">$1</h3>');
+
+        // Bold & Italic
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+        // Inline code
+        text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+        // Parse lines for lists and paragraphs
+        const lines = text.split('\n');
+        let inList = false;
+        const out = [];
+
+        for (let rawLine of lines) {
+            const line = rawLine.trimEnd();
+            const listMatch = line.match(/^(\s*)[-*]\s+(.*)$/);
+            if (listMatch) {
+                if (!inList) {
+                    out.push('<ul class="release-notes-list">');
+                    inList = true;
+                }
+                out.push(`<li>${listMatch[2]}</li>`);
+            } else {
+                if (inList) {
+                    out.push('</ul>');
+                    inList = false;
+                }
+                const trimmed = line.trim();
+                if (trimmed.length > 0 && !trimmed.startsWith('<h') && !trimmed.startsWith('<ul')) {
+                    out.push(`<p class="release-notes-p">${trimmed}</p>`);
+                } else if (trimmed.length > 0) {
+                    out.push(trimmed);
+                }
+            }
+        }
+        if (inList) {
+            out.push('</ul>');
+        }
+
+        return out.join('\n');
+    }
+
+    // Dynamic GitHub Releases Fetcher & Renderer
     async function syncGitHubReleases() {
+        const syncText = document.getElementById('syncText');
+        const releasesFeed = document.getElementById('releasesFeed');
+        if (!releasesFeed) return;
+
         const repoOwner = 'marjhonie-siasol';
         const repoName = 'multialts-rbx';
         const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases`;
+
+        function renderFallbackReleases(msg) {
+            if (syncText) {
+                syncText.innerText = `GitHub Sync • ${msg}`;
+            }
+            releasesFeed.innerHTML = `
+                <article class="release-card-bordered is-latest">
+                    <div class="release-card-topbar">
+                        <div class="release-card-meta">
+                            <code class="release-version-pill">v1.0.0</code>
+                            <span class="command-badge badge-install">Latest Release</span>
+                            <span class="release-card-date">Production Build</span>
+                        </div>
+                        <div class="release-card-actions">
+                            <a href="downloads/multialts-extension.zip" download="multialts-extension.zip" class="btn-copy-inline">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                                <span>Download multialts-extension.zip</span>
+                                <span class="release-size-tag">398 KB</span>
+                            </a>
+                            <a href="https://github.com/marjhonie-siasol/multialts-rbx/releases" target="_blank" rel="noopener" class="btn-copy-inline">
+                                <span>View GitHub Releases &rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="release-card-content">
+                        <h3 class="release-card-title">MultiAlts v1.0.0 Production Release</h3>
+                        <div class="release-card-notes">
+                            <p class="release-notes-p">Official production release of MultiAlts RBX. Complete zero-binary multi-instance Windows unlocker engine and companion Chromium extension.</p>
+                            <h5 class="release-notes-h5">Core Highlights</h5>
+                            <ul class="release-notes-list">
+                                <li>High-frequency Win32 NT handle stripper clearing singleton locks in under 350ms.</li>
+                                <li>1-click account switching in browser extension supporting unlimited Roblox accounts.</li>
+                                <li>Complete PowerShell CLI control suite (status, start, stop, restart, unlock, clean, kill-all).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
 
         try {
             const response = await fetch(apiUrl, {
@@ -142,71 +242,71 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
-                if (syncText) syncText.innerText = 'GitHub Sync Active (Local Archive)';
-                return;
+                throw new Error(`GitHub API status ${response.status}`);
             }
 
             const releases = await response.json();
             if (Array.isArray(releases) && releases.length > 0) {
                 if (syncText) {
-                    syncText.innerText = `Synced with GitHub (${releases.length} live releases)`;
+                    syncText.innerText = `Connected to GitHub Releases • ${releases.length} live ${releases.length === 1 ? 'version' : 'versions'} published`;
                 }
 
-                // If releases found, render any extra releases not already displayed
-                if (dynamicArea) {
-                    dynamicArea.innerHTML = '';
-                    releases.forEach((rel, idx) => {
-                        // If it's a new or additional release
-                        const dateFormatted = new Date(rel.published_at || rel.created_at).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        });
-
-                        const zipAsset = (rel.assets && rel.assets.find(a => a.name.endsWith('.zip'))) || null;
-                        const zipUrl = zipAsset ? zipAsset.browser_download_url : rel.zipball_url;
-                        const zipSize = zipAsset ? `${(zipAsset.size / 1024).toFixed(0)} KB` : 'Source Zip';
-
-                        const card = document.createElement('article');
-                        card.className = 'release-item release-archive';
-                        card.innerHTML = `
-                            <div class="release-header">
-                                <div class="release-meta-left">
-                                    <span class="release-tag">${rel.tag_name || rel.name}</span>
-                                    <span class="release-badge ${rel.prerelease ? 'badge-archive' : 'badge-latest'}">
-                                        ${rel.prerelease ? 'Pre-release' : 'GitHub Release'}
-                                    </span>
-                                    <span class="release-date">${dateFormatted}</span>
-                                </div>
-                                <div class="release-actions">
-                                    <a href="${zipUrl}" class="btn-release-download">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                            <polyline points="7 10 12 15 17 10"/>
-                                            <line x1="12" y1="15" x2="12" y2="3"/>
-                                        </svg>
-                                        <span>Download .zip</span>
-                                        <span class="release-filesize">${zipSize}</span>
-                                    </a>
-                                    <a href="${rel.html_url}" target="_blank" rel="noopener" class="btn-release-github">
-                                        <span>View on GitHub</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="release-body">
-                                <h3 class="release-title">${rel.name || rel.tag_name}</h3>
-                                <p class="release-summary">${rel.body ? rel.body.substring(0, 300) : 'Official release published on GitHub.'}</p>
-                            </div>
-                        `;
-                        dynamicArea.appendChild(card);
+                releasesFeed.innerHTML = '';
+                releases.forEach((rel, idx) => {
+                    const isLatest = idx === 0;
+                    const dateFormatted = new Date(rel.published_at || rel.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
                     });
-                }
+
+                    // Find primary .zip asset or fallback
+                    const zipAsset = (rel.assets && rel.assets.find(a => a.name.endsWith('.zip'))) || (rel.assets && rel.assets[0]) || null;
+                    const zipUrl = zipAsset ? zipAsset.browser_download_url : (rel.zipball_url || `https://github.com/${repoOwner}/${repoName}/releases/tag/${rel.tag_name}`);
+                    const zipName = zipAsset ? zipAsset.name : 'multialts-extension.zip';
+                    const zipSize = zipAsset ? `${(zipAsset.size / 1024).toFixed(0)} KB` : 'Archive';
+
+                    const card = document.createElement('article');
+                    card.className = `release-card-bordered ${isLatest ? 'is-latest' : ''}`;
+                    card.innerHTML = `
+                        <div class="release-card-topbar">
+                            <div class="release-card-meta">
+                                <code class="release-version-pill">${rel.tag_name || 'v1.0.0'}</code>
+                                <span class="command-badge ${isLatest ? 'badge-install' : 'badge-verify'}">
+                                    ${isLatest ? 'Latest Release' : (rel.prerelease ? 'Pre-release' : 'Previous Release')}
+                                </span>
+                                <span class="release-card-date">${dateFormatted}</span>
+                            </div>
+                            <div class="release-card-actions">
+                                <a href="${zipUrl}" class="btn-copy-inline" download="${zipName}" title="Download release archive">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="7 10 12 15 17 10"/>
+                                        <line x1="12" y1="15" x2="12" y2="3"/>
+                                    </svg>
+                                    <span>Download ${zipName}</span>
+                                    <span class="release-size-tag">${zipSize}</span>
+                                </a>
+                                <a href="${rel.html_url}" target="_blank" rel="noopener" class="btn-copy-inline" title="View release on GitHub">
+                                    <span>View on GitHub &rarr;</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="release-card-content">
+                            <h3 class="release-card-title">${rel.name || rel.tag_name}</h3>
+                            <div class="release-card-notes">
+                                ${parseReleaseMarkdown(rel.body)}
+                            </div>
+                        </div>
+                    `;
+                    releasesFeed.appendChild(card);
+                });
             } else {
-                if (syncText) syncText.innerText = 'Connected to GitHub - Local Archive Active';
+                renderFallbackReleases('No releases published yet on GitHub.');
             }
         } catch (err) {
-            console.log('GitHub API offline or rate-limited, showing local archive.', err);
-            if (syncText) syncText.innerText = 'GitHub Sync Active (Local Archive)';
+            console.warn('GitHub Releases API error, rendering direct fallback:', err);
+            renderFallbackReleases('Direct download archive active.');
         }
     }
 
