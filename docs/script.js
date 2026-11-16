@@ -185,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Dynamic GitHub Releases Fetcher & Renderer
     async function syncGitHubReleases() {
-        const syncText = document.getElementById('syncText');
         const releasesFeed = document.getElementById('releasesFeed');
         if (!releasesFeed) return;
 
@@ -193,10 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const repoName = 'multialts-rbx';
         const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases`;
 
-        function renderFallbackReleases(msg) {
-            if (syncText) {
-                syncText.innerText = `GitHub Sync • ${msg}`;
-            }
+        function renderFallbackReleases() {
             releasesFeed.innerHTML = `
                 <article class="release-card-bordered is-latest">
                     <div class="release-card-topbar">
@@ -247,10 +243,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const releases = await response.json();
             if (Array.isArray(releases) && releases.length > 0) {
-                if (syncText) {
-                    syncText.innerText = `Connected to GitHub Releases • ${releases.length} live ${releases.length === 1 ? 'version' : 'versions'} published`;
-                }
-
                 releasesFeed.innerHTML = '';
                 releases.forEach((rel, idx) => {
                     const isLatest = idx === 0;
@@ -302,11 +294,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     releasesFeed.appendChild(card);
                 });
             } else {
-                renderFallbackReleases('No releases published yet on GitHub.');
+                renderFallbackReleases();
             }
         } catch (err) {
             console.warn('GitHub Releases API error, rendering direct fallback:', err);
-            renderFallbackReleases('Direct download archive active.');
+            renderFallbackReleases();
         }
     }
 

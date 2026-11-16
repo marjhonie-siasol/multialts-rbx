@@ -1420,43 +1420,15 @@ body {
 /* ==========================================================================
    Section 6: Releases & Changelog (Clean Bordered Style)
    ========================================================================== */
-.releases-sync-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    background: #080b11;
-    border: 1px solid var(--border-hairline);
-    border-radius: 6px;
-    margin-bottom: 24px;
-    font-size: 0.82rem;
-    color: var(--text-med);
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.sync-indicator {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.sync-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #10b981;
-    flex-shrink: 0;
-}
-
-.sync-github-link {
+.subtext-link {
     color: var(--accent-blue);
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 3px;
     font-weight: 500;
     transition: color 120ms ease;
 }
 
-.sync-github-link:hover {
+.subtext-link:hover {
     color: #ffffff;
 }
 
