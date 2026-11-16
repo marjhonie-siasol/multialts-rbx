@@ -1,14 +1,14 @@
 // MultiAlts Landing Page Script
 document.addEventListener('DOMContentLoaded', () => {
-    // Copy Command on Website Explainer Card
+    // Copy Command on Install Terminal
     const webCopyBtn = document.getElementById('webCopyBtn');
     const webCommandCode = document.getElementById('webCommandCode');
 
-    if (webCopyBtn && webCommandCode) {
+    if (webCopyBtn) {
         const btnTextSpan = webCopyBtn.querySelector('span');
 
         webCopyBtn.addEventListener('click', () => {
-            const textToCopy = webCommandCode.innerText.trim();
+            const textToCopy = 'irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/install.ps1 | iex';
             navigator.clipboard.writeText(textToCopy).then(() => {
                 const originalText = btnTextSpan ? btnTextSpan.innerText : webCopyBtn.innerText;
                 if (btnTextSpan) {
@@ -16,8 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     webCopyBtn.innerText = 'Copied!';
                 }
-                webCopyBtn.style.background = '#00c4b4';
-                webCopyBtn.style.color = '#000000';
+                webCopyBtn.style.background = 'rgba(255, 255, 255, 0.22)';
+                webCopyBtn.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                webCopyBtn.style.color = '#ffffff';
 
                 setTimeout(() => {
                     if (btnTextSpan) {
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         webCopyBtn.innerText = originalText;
                     }
                     webCopyBtn.style.background = '';
+                    webCopyBtn.style.borderColor = '';
                     webCopyBtn.style.color = '';
                 }, 2200);
             }).catch(err => {
@@ -34,15 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Copy Command on Uninstallation Card
+    // Copy Command on Uninstall Terminal
     const uninstallCopyBtn = document.getElementById('uninstallCopyBtn');
     const uninstallCommandCode = document.getElementById('uninstallCommandCode');
 
-    if (uninstallCopyBtn && uninstallCommandCode) {
+    if (uninstallCopyBtn) {
         const btnTextSpan = uninstallCopyBtn.querySelector('span');
 
         uninstallCopyBtn.addEventListener('click', () => {
-            const textToCopy = uninstallCommandCode.innerText.trim();
+            const textToCopy = 'irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1 | iex';
             navigator.clipboard.writeText(textToCopy).then(() => {
                 const originalText = btnTextSpan ? btnTextSpan.innerText : uninstallCopyBtn.innerText;
                 if (btnTextSpan) {
@@ -50,8 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     uninstallCopyBtn.innerText = 'Copied!';
                 }
-                uninstallCopyBtn.style.background = '#f87171';
-                uninstallCopyBtn.style.color = '#000000';
+                uninstallCopyBtn.style.background = 'rgba(255, 255, 255, 0.22)';
+                uninstallCopyBtn.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                uninstallCopyBtn.style.color = '#ffffff';
 
                 setTimeout(() => {
                     if (btnTextSpan) {
@@ -60,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         uninstallCopyBtn.innerText = originalText;
                     }
                     uninstallCopyBtn.style.background = '';
+                    uninstallCopyBtn.style.borderColor = '';
                     uninstallCopyBtn.style.color = '';
                 }, 2200);
             }).catch(err => {
@@ -167,4 +171,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     syncGitHubReleases();
+
+    // Mockup Manage / Done Interactive Toggle
+    const mockupManageBtn = document.getElementById('mockupManageBtn');
+    if (mockupManageBtn) {
+        let isMockupManage = false;
+        const logoutSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>';
+        const deleteSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>';
+
+        mockupManageBtn.addEventListener('click', () => {
+            isMockupManage = !isMockupManage;
+            mockupManageBtn.innerText = isMockupManage ? 'Done' : 'Manage';
+            mockupManageBtn.classList.toggle('done-mode', isMockupManage);
+
+            document.querySelectorAll('.accounts-list .btn-del').forEach(btn => {
+                if (isMockupManage) {
+                    btn.classList.add('remove-mode');
+                    btn.innerHTML = deleteSvg;
+                    btn.title = 'Delete account from MultiAlts';
+                } else {
+                    btn.classList.remove('remove-mode');
+                    btn.innerHTML = logoutSvg;
+                    const card = btn.closest('.account-card');
+                    btn.title = (card && card.classList.contains('active')) ? 'Log out of browser session' : 'Remove from saved alts';
+                }
+            });
+        });
+
+        // Allow clicking ✕ to remove account in mockup during Manage mode
+        document.querySelectorAll('.accounts-list .btn-del').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                if (isMockupManage) {
+                    e.stopPropagation();
+                    const card = this.closest('.account-card');
+                    if (card) {
+                        card.style.transition = 'opacity 180ms ease, transform 180ms ease';
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateX(20px)';
+                        setTimeout(() => card.remove(), 180);
+                    }
+                }
+            });
+        });
+    }
 });

@@ -3,43 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MultiAlts — Multi-Account Roblox Launcher & Extension</title>
-    <meta name="description" content="Open-source browser extension and lightweight Windows engine to switch accounts in one click and run multiple Roblox clients simultaneously with native performance.">
+    <title>MultiAlts — Play Roblox on Multiple Accounts</title>
+    <meta name="description" content="Play Roblox on multiple accounts at the same time on Windows. Native performance, zero lag, open source.">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
-    <!-- Top Navigation -->
-    <header class="navbar">
-        <div class="nav-container">
-            <a href="#" class="nav-brand">
-                <img src="logo.png" alt="MultiAlts Logo" class="brand-img">
-                <span class="brand-name">MultiAlts</span>
+    <!-- Navigation -->
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="#" class="brand">
+                <img src="logo.png" alt="MultiAlts Logo" class="brand-logo">
+                <span class="brand-title">MultiAlts</span>
             </a>
 
-            <nav class="nav-menu">
-                <a href="#architecture" class="nav-link">Architecture</a>
-                <a href="#command" class="nav-link">The Command</a>
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#privacy" class="nav-link">Privacy</a>
-                <a href="#releases" class="nav-link">Releases</a>
-                <a href="#quickstart" class="nav-link">Quickstart</a>
-                <a href="#uninstall" class="nav-link">Uninstall</a>
-                <a href="#faq" class="nav-link">FAQ</a>
+            <nav class="nav-links">
+                <a href="#hero" class="nav-item">Overview</a>
+                <a href="#features" class="nav-item">Features</a>
+                <a href="#setup" class="nav-item">Setup</a>
+                <a href="#faq" class="nav-item">FAQ</a>
             </nav>
 
-            <div class="nav-actions">
-                <a href="https://github.com/marjhonie-siasol/multialts-rbx" target="_blank" rel="noopener" class="nav-github-btn">
+            <div class="nav-cta-group">
+                <a href="https://github.com/marjhonie-siasol/multialts-rbx" target="_blank" rel="noopener" class="nav-github-link">
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                         <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
                     </svg>
                     <span>GitHub</span>
                 </a>
-                <a href="downloads/multialts-extension.zip" download="multialts-extension.zip" class="nav-download-btn">
+                <a href="downloads/multialts-extension.zip" download="multialts-extension.zip" class="btn-nav-download">
                     <span>Download .zip</span>
                 </a>
             </div>
@@ -47,878 +43,533 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-container">
-                <h1 class="hero-title">Run multiple Roblox accounts simultaneously.</h1>
-
-                <p class="hero-subtitle">
-                    Switch accounts instantly in your browser and launch parallel game instances side-by-side with zero emulators, zero memory leaks, and native PC performance.
+        <!-- Hero Section: Heading + Split Extension (Left) vs PowerShell (Right) -->
+        <section class="hero-block" id="hero">
+            <div class="hero-intro">
+                <h1 class="hero-headline">Play Roblox on multiple accounts at the same time.</h1>
+                <p class="hero-subheadline">
+                    Supports Chrome, Brave, and Edge.
                 </p>
-
-                <div class="hero-buttons">
-                    <a href="downloads/multialts-extension.zip" download="multialts-extension.zip" class="btn-primary" id="downloadHeroBtn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                        <span>Download Extension (.zip)</span>
-                    </a>
-                    <a href="#command" class="btn-secondary">
-                        <span>What is the helper command?</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="6 9 12 15 18 9"/>
-                        </svg>
-                    </a>
-                </div>
-
-                <div class="hero-platform-specs">
-                    <span class="spec-item">Chrome</span>
-                    <span class="spec-divider">/</span>
-                    <span class="spec-item">Brave</span>
-                    <span class="spec-divider">/</span>
-                    <span class="spec-item">Edge</span>
-                    <span class="spec-divider">/</span>
-                    <span class="spec-item">Windows 10 &amp; 11</span>
-                    <span class="spec-divider">/</span>
-                    <span class="spec-item">MIT License</span>
-                </div>
-
-                <!-- Live Visual Product Preview Showcase -->
-                <div class="product-preview-wrap">
-                    <div class="preview-glow"></div>
-                    <div class="preview-grid">
-                        
-                        <!-- Panel 1: Extension UI Mockup -->
-                        <div class="preview-card extension-mockup">
-                            <div class="mockup-header">
-                                <div class="mockup-brand">
-                                    <img src="logo.png" alt="MultiAlts" class="mockup-logo">
-                                    <span class="mockup-title">MultiAlts</span>
-                                </div>
-                                <div class="mockup-engine-pill active">
-                                    <span class="status-indicator"></span>
-                                    <span>Engine Active</span>
-                                </div>
-                            </div>
-
-                            <div class="mockup-section-label">
-                                <span>ACCOUNTS (3)</span>
-                                <span class="mockup-pill-btn">+ Add Current</span>
-                            </div>
-
-                            <div class="mockup-accounts-list">
-                                <div class="account-card-preview active-account">
-                                    <div class="account-avatar-circle alt-one"></div>
-                                    <div class="account-info">
-                                        <div class="account-name">MainAccount</div>
-                                        <div class="account-handle">@player_main</div>
-                                    </div>
-                                    <span class="active-badge">Active</span>
-                                </div>
-
-                                <div class="account-card-preview">
-                                    <div class="account-avatar-circle alt-two"></div>
-                                    <div class="account-info">
-                                        <div class="account-name">TraderAlt</div>
-                                        <div class="account-handle">@alt_trader</div>
-                                    </div>
-                                    <span class="switch-action">Switch</span>
-                                </div>
-
-                                <div class="account-card-preview">
-                                    <div class="account-avatar-circle alt-three"></div>
-                                    <div class="account-info">
-                                        <div class="account-name">StorageAlt</div>
-                                        <div class="account-handle">@alt_storage</div>
-                                    </div>
-                                    <span class="switch-action">Switch</span>
-                                </div>
-                            </div>
-
-                            <div class="mockup-footer-action">
-                                <div class="mockup-alt-btn">+ Sign into Alt</div>
-                            </div>
-                        </div>
-
-                        <!-- Panel 2: Live Windows Engine Terminal & Status -->
-                        <div class="preview-card terminal-mockup">
-                            <div class="terminal-header-bar">
-                                <div class="terminal-dots-row">
-                                    <span class="term-dot dot-close"></span>
-                                    <span class="term-dot dot-min"></span>
-                                    <span class="term-dot dot-max"></span>
-                                    <span class="terminal-tab-label">MultiAltsEngine (Port 28491)</span>
-                                </div>
-                                <span class="terminal-pid">PID 18492</span>
-                            </div>
-
-                            <div class="terminal-console-body">
-                                <div class="console-line text-muted">[2026-11-15 11:30:02] MultiAltsEngine v1.0.0 initializing...</div>
-                                <div class="console-line text-accent">[OK] Local loopback listener bound to http://127.0.0.1:28491</div>
-                                <div class="console-line">[WATCHER] Polling active processes (interval: 350ms)</div>
-                                <div class="console-line text-muted">---------------------------------------------------------</div>
-                                <div class="console-line"><span class="tag-client">CLIENT 1</span> RobloxPlayerBeta.exe (PID 21408) detected</div>
-                                <div class="console-line text-success">[CLEARED] ROBLOX_singletonMutex handle closed in 312ms</div>
-                                <div class="console-line"><span class="tag-client">CLIENT 2</span> RobloxPlayerBeta.exe (PID 30512) launched</div>
-                                <div class="console-line text-success">[CLEARED] ROBLOX_singletonMutex handle closed in 294ms</div>
-                                <div class="console-line text-accent">[RUNNING] 2 active game instances side-by-side (0.0% CPU idle)</div>
-                            </div>
-
-                            <div class="engine-metrics-row">
-                                <div class="metric-item">
-                                    <span class="metric-label">Mutex Status</span>
-                                    <span class="metric-val text-success">Unlocked</span>
-                                </div>
-                                <div class="metric-item">
-                                    <span class="metric-label">Unlock Latency</span>
-                                    <span class="metric-val">303 ms</span>
-                                </div>
-                                <div class="metric-item">
-                                    <span class="metric-label">Idle CPU</span>
-                                    <span class="metric-val">0.0 %</span>
-                                </div>
-                                <div class="metric-item">
-                                    <span class="metric-label">RAM Usage</span>
-                                    <span class="metric-val">14.2 MB</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
             </div>
-        </section>
 
-        <!-- Section 1: Architecture -->
-        <section class="content-section" id="architecture">
-            <div class="section-container">
-                <div class="section-heading">
-                    <span class="section-tag">[01] SYSTEM ARCHITECTURE</span>
-                    <h2 class="section-title">How MultiAlts solves the multi-instance barrier</h2>
-                    <p class="section-intro">
-                        By default, running multiple accounts on Roblox fails at two independent boundaries: logging out on the website invalidates your session cookie, and launching a second client causes a Windows mutex crash. MultiAlts divides and conquers both.
-                    </p>
-                </div>
+            <!-- Two-Sided Showcase -->
+            <div class="showcase-split">
 
-                <div class="architecture-grid">
-                    <div class="arch-card">
-                        <div class="arch-header">
-                            <span class="arch-badge">PART A</span>
-                            <h3 class="arch-name">The Chromium Extension</h3>
-                        </div>
-                        <p class="arch-desc">
-                            Lives in your browser toolbar. Manages your account cookies inside Chrome's offline sandbox without triggering server-side logouts, and places a streamlined <strong>Play MultiAlts</strong> launch trigger right onto game pages.
+                <!-- Left Column: The Extension -->
+                <div class="showcase-col showcase-extension">
+                    <div class="col-meta">
+                        <div class="col-kicker">Browser Extension</div>
+                        <h2 class="col-title">When you have 5+ accounts</h2>
+                        <p class="col-description">
+                            Roblox limits account switching to 5 accounts. Use the extension to store 7, 10, or 20+ alts in your browser and switch between them in one click without re-typing passwords.
                         </p>
-                        <ul class="arch-feature-list">
-                            <li>
-                                <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        <div class="col-actions">
+                            <a href="downloads/multialts-extension.zip" download="multialts-extension.zip" class="btn-action-primary" id="downloadHeroBtn">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
                                 </svg>
-                                <span>Zero-logout session swapping (preserves <code>.ROBLOSECURITY</code> tokens)</span>
-                            </li>
-                            <li>
-                                <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>Direct DOM button injection on <code>roblox.com/games/*</code></span>
-                            </li>
-                            <li>
-                                <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>Strictly local storage with zero analytics or remote database calls</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="arch-card">
-                        <div class="arch-header">
-                            <span class="arch-badge">PART B</span>
-                            <h3 class="arch-name">The Local Windows Engine</h3>
-                        </div>
-                        <p class="arch-desc">
-                            Browser extensions cannot modify Windows operating system handles. Our background daemon runs locally on your PC on port 28491, stripping single-instance kernel mutexes within 350ms to allow parallel instances.
-                        </p>
-                        <ul class="arch-feature-list">
-                            <li>
-                                <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>Win32 NT handle stripping (closes <code>ROBLOX_singletonMutex</code>)</span>
-                            </li>
-                            <li>
-                                <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>350ms high-speed poll loop prevents launch race conditions</span>
-                            </li>
-                            <li>
-                                <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>Runs genuine official Roblox binaries with zero DLL memory injection</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Flow Visual Pipeline -->
-                <div class="flow-pipeline-box">
-                    <div class="pipeline-title">Execution Pipeline</div>
-                    <div class="pipeline-steps">
-                        <div class="pipe-step">
-                            <span class="pipe-step-num">01</span>
-                            <span class="pipe-step-title">Browser Extension</span>
-                            <span class="pipe-step-desc">Select Alt in Toolbar</span>
-                        </div>
-                        <div class="pipe-arrow">→</div>
-                        <div class="pipe-step">
-                            <span class="pipe-step-num">02</span>
-                            <span class="pipe-step-title">Cookie Swap</span>
-                            <span class="pipe-step-desc">Replaces local token (0ms)</span>
-                        </div>
-                        <div class="pipe-arrow">→</div>
-                        <div class="pipe-step">
-                            <span class="pipe-step-num">03</span>
-                            <span class="pipe-step-title">Engine Port 28491</span>
-                            <span class="pipe-step-desc">Strikes singleton mutex</span>
-                        </div>
-                        <div class="pipe-arrow">→</div>
-                        <div class="pipe-step highlight">
-                            <span class="pipe-step-num">04</span>
-                            <span class="pipe-step-title">Multi-Client Active</span>
-                            <span class="pipe-step-desc">Both clients run side-by-side</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Section 2: The Command -->
-        <section class="content-section alt-bg" id="command">
-            <div class="section-container">
-                <div class="section-heading">
-                    <span class="section-tag">[02] THE HELPER COMMAND</span>
-                    <h2 class="section-title">Why the PowerShell command is needed</h2>
-                    <p class="section-intro">
-                        To operate without bulky emulators, MultiAlts uses a local Windows helper service. Here is complete, transparent documentation of what this command runs, why it is safe, and how it works.
-                    </p>
-                </div>
-
-                <!-- Interactive Terminal Shell -->
-                <div class="code-terminal-card">
-                    <div class="terminal-top">
-                        <div class="terminal-dots">
-                            <span class="dot-btn red"></span>
-                            <span class="dot-btn yellow"></span>
-                            <span class="dot-btn green"></span>
-                            <span class="terminal-title">Windows PowerShell</span>
-                        </div>
-                        <div class="terminal-top-actions">
-                            <button class="terminal-copy-btn" id="webCopyBtn">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                                </svg>
-                                <span>Copy Command</span>
-                            </button>
-                            <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/install.ps1" target="_blank" rel="noopener" class="terminal-view-code">
-                                <span>Inspect on GitHub</span>
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                                    <polyline points="15 3 21 3 21 9"/>
-                                    <line x1="10" y1="14" x2="21" y2="3"/>
-                                </svg>
+                                <span>Download Extension (.zip)</span>
                             </a>
                         </div>
                     </div>
-                    <div class="terminal-body">
-                        <pre class="terminal-code-block"><code id="webCommandCode">irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/install.ps1 | iex</code></pre>
-                    </div>
-                </div>
 
-                <!-- Explanation Breakdown Rows -->
-                <div class="command-details-grid">
-                    <div class="detail-card">
-                        <div class="detail-tag">THE PROBLEM</div>
-                        <h4 class="detail-title">ROBLOX_singletonMutex</h4>
-                        <p class="detail-text">
-                            When Roblox starts, it registers a named Win32 mutex. If another instance is running, the new process throws a <code>wil::ResultException</code> error and terminates within 220 milliseconds.
-                        </p>
-                    </div>
+                    <!-- Extension Popup Surface Frame -->
+                    <div class="browser-window">
+                        <div class="popup">
+                            <!-- Top Bar (Clean Branding) -->
+                            <header class="header-row">
+                                <div class="brand-title-wrap">
+                                    <img src="logo.png" alt="MultiAlts" class="brand-logo">
+                                    <span class="brand-title">MultiAlts</span>
+                                </div>
+                            </header>
 
-                    <div class="detail-card">
-                        <div class="detail-tag">THE SOLUTION</div>
-                        <h4 class="detail-title">MultiAltsEngine (Port 28491)</h4>
-                        <p class="detail-text">
-                            The command runs a minimal background daemon that locates <code>RobloxPlayerBeta.exe</code> and calls <code>CloseHandle</code> on the singleton mutex, allowing new clients to open freely.
-                        </p>
-                    </div>
-
-                    <div class="detail-card">
-                        <div class="detail-tag">PERMISSIONS</div>
-                        <h4 class="detail-title">Standard User (No Admin)</h4>
-                        <p class="detail-text">
-                            Does not require "Run as Administrator", UAC prompts, or driver installation. It runs strictly within your normal Windows user permissions without editing system files or registry keys.
-                        </p>
-                    </div>
-
-                    <div class="detail-card">
-                        <div class="detail-tag">CLEAN EXIT</div>
-                        <h4 class="detail-title">Easily Stopped at Any Time</h4>
-                        <p class="detail-text">
-                            The engine runs as a standalone process. When you are done gaming, simply terminate it or run <code>taskkill /f /im MultiAltsEngine.exe</code>. Nothing stays behind.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Section 3: Features -->
-        <section class="content-section" id="features">
-            <div class="section-container">
-                <div class="section-heading">
-                    <span class="section-tag">[03] FEATURES</span>
-                    <h2 class="section-title">Engineered for clean multi-instance gaming</h2>
-                    <p class="section-intro">
-                        No emulators, no virtualization overhead, no complex hotkeys.
-                    </p>
-                </div>
-
-                <div class="features-matrix">
-                    <div class="feature-item-card">
-                        <div class="feature-badge">01</div>
-                        <h3 class="feature-heading">In-Browser Account Switching</h3>
-                        <p class="feature-paragraph">
-                            Manage all your alternate accounts in a clean dropdown. Clicking any account immediately swaps the active `.ROBLOSECURITY` session in real time without triggering 2FA re-verification.
-                        </p>
-                    </div>
-
-                    <div class="feature-item-card">
-                        <div class="feature-badge">02</div>
-                        <h3 class="feature-heading">Native Roblox Page Integration</h3>
-                        <p class="feature-paragraph">
-                            Injects an unobtrusive <strong>Play MultiAlts</strong> launch trigger right onto <code>roblox.com/games/*</code> pages, so you never have to leave the website or use third-party launchers.
-                        </p>
-                    </div>
-
-                    <div class="feature-item-card">
-                        <div class="feature-badge">03</div>
-                        <h3 class="feature-heading">Zero Emulators, Pure Performance</h3>
-                        <p class="feature-paragraph">
-                            Android emulators (BlueStacks, LDPlayer) burn 4GB–8GB of RAM and degrade CPU framerates. MultiAlts runs native Windows binaries, reducing memory consumption by over 70%.
-                        </p>
-                    </div>
-
-                    <div class="feature-item-card">
-                        <div class="feature-badge">04</div>
-                        <h3 class="feature-heading">Collision &amp; Crash Protection</h3>
-                        <p class="feature-paragraph">
-                            Features a 350ms high-speed mutex stripper and automated zombie-client cleanup, preventing game launch collisions and startup crashes.
-                        </p>
-                    </div>
-
-                    <div class="feature-item-card">
-                        <div class="feature-badge">05</div>
-                        <h3 class="feature-heading">Safe Local Cookie Vault</h3>
-                        <p class="feature-paragraph">
-                            Tokens are stored strictly inside your browser's private local sandboxed database (<code>chrome.storage.local</code>). Zero cloud servers, zero analytics, zero data sharing.
-                        </p>
-                    </div>
-
-                    <div class="feature-item-card">
-                        <div class="feature-badge">06</div>
-                        <h3 class="feature-heading">Zero Game File Tampering</h3>
-                        <p class="feature-paragraph">
-                            MultiAlts does not inject code, edit game memory, or modify Roblox binary files. It only handles Windows kernel handles outside of game memory.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Section 4: Privacy & Security -->
-        <section class="content-section alt-bg" id="privacy">
-            <div class="section-container">
-                <div class="section-heading">
-                    <span class="section-tag">[04] PRIVACY &amp; SECURITY</span>
-                    <h2 class="section-title">Local by architecture, not by promise</h2>
-                    <p class="section-intro">
-                        Many multi-account tools secretly transmit credentials or inject code into games. MultiAlts is built strictly without remote servers or external telemetry.
-                    </p>
-                </div>
-
-                <div class="privacy-cards-grid">
-                    <div class="privacy-card">
-                        <div class="privacy-icon-box">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                            </svg>
-                        </div>
-                        <h3 class="privacy-title">Local Browser Storage</h3>
-                        <p class="privacy-text">
-                            Your <code>.ROBLOSECURITY</code> cookies are stored exclusively inside your browser's private sandbox (<code>chrome.storage.local</code>). They never leave your PC.
-                        </p>
-                    </div>
-
-                    <div class="privacy-card">
-                        <div class="privacy-icon-box">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"/>
-                                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
-                            </svg>
-                        </div>
-                        <h3 class="privacy-title">Zero Remote Servers</h3>
-                        <p class="privacy-text">
-                            There are no cloud databases, analytics endpoints, or external logins. MultiAlts communicates exclusively between your browser and <code>http://localhost:28491</code> on your own PC.
-                        </p>
-                    </div>
-
-                    <div class="privacy-card">
-                        <div class="privacy-icon-box">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            </svg>
-                        </div>
-                        <h3 class="privacy-title">No Game Memory Injection</h3>
-                        <p class="privacy-text">
-                            MultiAlts does not inject DLLs into the Roblox game process, read game memory, or modify game files. It simply handles Windows kernel handle management.
-                        </p>
-                    </div>
-
-                    <div class="privacy-card">
-                        <div class="privacy-icon-box">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="16 18 22 12 16 6"/>
-                                <polyline points="8 6 2 12 8 18"/>
-                            </svg>
-                        </div>
-                        <h3 class="privacy-title">Fully Open Source</h3>
-                        <p class="privacy-text">
-                            Every line of PowerShell, C#, and JavaScript is completely readable in our public GitHub repository under the permissive MIT license.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Section 5: Releases & Changelog -->
-        <section class="content-section" id="releases">
-            <div class="section-container">
-                <div class="section-heading-split">
-                    <div class="heading-left">
-                        <span class="section-tag">[05] RELEASES &amp; VERSION HISTORY</span>
-                        <h2 class="section-title">Version archive and changelog</h2>
-                        <p class="section-intro">
-                            Download the latest release or explore previous builds. Each release is connected to GitHub with complete source code and release notes.
-                        </p>
-                    </div>
-                    <div class="heading-right">
-                        <a href="https://github.com/marjhonie-siasol/multialts-rbx/releases" target="_blank" rel="noopener" class="btn-github-releases">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                            </svg>
-                            <span>View All Releases on GitHub</span>
-                        </a>
-                        <div class="github-sync-indicator" id="githubSyncBadge">
-                            <span class="sync-dot"></span>
-                            <span id="syncText">Connected to GitHub API</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="releases-container" id="releasesContainer">
-                    <!-- Latest Release Card (v1.0.0) -->
-                    <div class="release-card latest-release">
-                        <div class="release-topbar">
-                            <div class="release-identity">
-                                <span class="release-version">v1.0.0</span>
-                                <span class="release-status-badge latest">
-                                    <span class="status-dot-mini"></span>
-                                    Latest Release
-                                </span>
-                            </div>
-                            <div class="release-date">
-                                Updated: November 15, 2026
-                            </div>
-                        </div>
-
-                        <div class="release-main-content">
-                            <h3 class="release-headline">MultiAlts Initial Public Release</h3>
-                            <p class="release-summary">
-                                Full production release including the Chromium Manifest V3 browser extension and the native Windows background mutex daemon.
-                            </p>
-
-                            <div class="release-notes-block">
-                                <div class="notes-header">Changelog &amp; Notes:</div>
-                                <ul class="release-bullets">
-                                    <li><strong>Extension (MV3):</strong> 1-click active account switcher with <code>chrome.storage.local</code> cookie persistence and zero-logout session protection.</li>
-                                    <li><strong>Windows Engine:</strong> High-speed 350ms <code>ROBLOX_singletonMutex</code> handle closure running locally on port <code>28491</code> without administrator elevation.</li>
-                                    <li><strong>Roblox Integration:</strong> Injects native <code>Play MultiAlts</code> trigger on <code>roblox.com/games/*</code> pages.</li>
-                                    <li><strong>Performance:</strong> Native Win32 game processes with 0% idle CPU and ~70% RAM reduction compared to Android emulators.</li>
-                                </ul>
+                            <!-- Engine Status Banner -->
+                            <div class="engine-notice-bar active">
+                                <span class="notice-pip"></span>
+                                <span class="notice-text">Engine active. Multiple accounts ready.</span>
                             </div>
 
-                            <div class="release-download-group">
-                                <a href="downloads/multialts-extension-v1.0.0.zip" download="multialts-extension-v1.0.0.zip" class="btn-release-download">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                        <polyline points="7 10 12 15 17 10"/>
-                                        <line x1="12" y1="15" x2="12" y2="3"/>
-                                    </svg>
-                                    <span>Download multialts-v1.0.0.zip</span>
-                                    <span class="file-size-tag">411 KB</span>
-                                </a>
+                            <!-- Accounts Section -->
+                            <section class="accounts-section">
+                                <div class="accounts-head">
+                                    <span class="section-title">Roblox Accounts</span>
+                                    <button class="btn-manage-accounts" id="mockupManageBtn" type="button">Manage</button>
+                                </div>
 
-                                <a href="downloads/v1.0.0/" class="btn-release-folder" target="_blank">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                                    </svg>
-                                    <span>Folder /v1.0.0/</span>
-                                </a>
+                                <div class="accounts-list">
+                                    <!-- Account 1: Kestrel (Active in Browser) -->
+                                    <div class="account-card online active">
+                                        <div class="avatar">
+                                            <img src="assets/avatars/avatar1.png" alt="Kestrel">
+                                            <span class="avatar-status-pip online"></span>
+                                        </div>
+                                        <div class="info">
+                                            <div class="name">Kestrel</div>
+                                            <div class="sub">@KestrelVortex</div>
+                                        </div>
+                                        <div class="status-badge online" title="Online — active session in browser">
+                                            <span class="status-dot"></span>
+                                            <span class="status-label">Online</span>
+                                        </div>
+                                        <button class="btn-del" title="Log out of browser session" type="button" aria-label="Log out of browser session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
+                                    </div>
 
-                                <a href="https://github.com/marjhonie-siasol/multialts-rbx/tree/main" target="_blank" rel="noopener" class="btn-release-github">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                                    </svg>
-                                    <span>GitHub Tree</span>
-                                </a>
+                                    <!-- Account 2: ShadowBlade (Playing in Game) -->
+                                    <div class="account-card playing">
+                                        <div class="avatar">
+                                            <img src="assets/avatars/avatar2.png" alt="ShadowBlade">
+                                            <span class="avatar-status-pip playing"></span>
+                                        </div>
+                                        <div class="info">
+                                            <div class="name">ShadowBlade</div>
+                                            <div class="sub">@shadow_blade99</div>
+                                        </div>
+                                        <div class="status-badge playing" title="Playing — running in game window">
+                                            <span class="status-dot"></span>
+                                            <span class="status-label">Playing</span>
+                                        </div>
+                                        <button class="btn-del" title="Remove from saved alts" type="button" aria-label="Remove from saved alts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
+                                    </div>
+
+                                    <!-- Account 3: TraderAlt (Playing in Game) -->
+                                    <div class="account-card playing">
+                                        <div class="avatar">
+                                            <img src="assets/avatars/avatar3.png" alt="TraderAlt">
+                                            <span class="avatar-status-pip playing"></span>
+                                        </div>
+                                        <div class="info">
+                                            <div class="name">TraderAlt</div>
+                                            <div class="sub">@alt_trader</div>
+                                        </div>
+                                        <div class="status-badge playing" title="Playing — running in game window">
+                                            <span class="status-dot"></span>
+                                            <span class="status-label">Playing</span>
+                                        </div>
+                                        <button class="btn-del" title="Remove from saved alts" type="button" aria-label="Remove from saved alts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
+                                    </div>
+
+                                    <!-- Account 4: GrindBot_01 (Playing in Game) -->
+                                    <div class="account-card playing">
+                                        <div class="avatar">
+                                            <img src="assets/avatars/avatar4.png" alt="GrindBot_01">
+                                            <span class="avatar-status-pip playing"></span>
+                                        </div>
+                                        <div class="info">
+                                            <div class="name">GrindBot_01</div>
+                                            <div class="sub">@alt_grinder</div>
+                                        </div>
+                                        <div class="status-badge playing" title="Playing — running in game window">
+                                            <span class="status-dot"></span>
+                                            <span class="status-label">Playing</span>
+                                        </div>
+                                        <button class="btn-del" title="Remove from saved alts" type="button" aria-label="Remove from saved alts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
+                                    </div>
+
+                                    <!-- Account 5: StorageVault (Online) -->
+                                    <div class="account-card online">
+                                        <div class="avatar">
+                                            <img src="assets/avatars/avatar5.png" alt="StorageVault">
+                                            <span class="avatar-status-pip online"></span>
+                                        </div>
+                                        <div class="info">
+                                            <div class="name">StorageVault</div>
+                                            <div class="sub">@vault_keeper</div>
+                                        </div>
+                                        <div class="status-badge online" title="Online — active session in browser">
+                                            <span class="status-dot"></span>
+                                            <span class="status-label">Online</span>
+                                        </div>
+                                        <button class="btn-del" title="Remove from saved alts" type="button" aria-label="Remove from saved alts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
+                                    </div>
+
+                                    <!-- Account 6: BankAlt (Offline) -->
+                                    <div class="account-card offline">
+                                        <div class="avatar">
+                                            <img src="assets/avatars/avatar6.png" alt="BankAlt">
+                                            <span class="avatar-status-pip offline"></span>
+                                        </div>
+                                        <div class="info">
+                                            <div class="name">BankAlt</div>
+                                            <div class="sub">@alt_banker</div>
+                                        </div>
+                                        <div class="status-badge offline" title="Offline — not in browser or game">
+                                            <span class="status-dot"></span>
+                                            <span class="status-label">Offline</span>
+                                        </div>
+                                        <button class="btn-del" title="Remove from saved alts" type="button" aria-label="Remove from saved alts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
+                                    </div>
+
+                                    <!-- Account 7: PixelKnight (Offline) -->
+                                    <div class="account-card offline">
+                                        <div class="avatar">
+                                            <img src="assets/avatars/avatar7.png" alt="PixelKnight">
+                                            <span class="avatar-status-pip offline"></span>
+                                        </div>
+                                        <div class="info">
+                                            <div class="name">PixelKnight</div>
+                                            <div class="sub">@pixel_knight_rbx</div>
+                                        </div>
+                                        <div class="status-badge offline" title="Offline — not in browser or game">
+                                            <span class="status-dot"></span>
+                                            <span class="status-label">Offline</span>
+                                        </div>
+                                        <button class="btn-del" title="Remove from saved alts" type="button" aria-label="Remove from saved alts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
+                                    </div>
+                                </div>
+
+                                <button class="btn-alt-login" type="button">+ Add Roblox Account</button>
+                            </section>
+
+                            <!-- Footers with Collapsible Dropdowns -->
+                            <div class="collapsible-group">
+                                <div class="collapsible-section">
+                                    <button class="btn-collapse-toggle" type="button">
+                                        <span>Need the PowerShell engine?</span>
+                                        <svg class="toggle-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="collapsible-section">
+                                    <button class="btn-collapse-toggle" type="button">
+                                        <span>Looking to uninstall?</span>
+                                        <svg class="toggle-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Archived Release Card (v0.9.2-beta) -->
-                    <div class="release-card archive-release">
-                        <div class="release-topbar">
-                            <div class="release-identity">
-                                <span class="release-version">v0.9.2-beta</span>
-                                <span class="release-status-badge archive">Archived Beta</span>
-                            </div>
-                            <div class="release-date">
-                                Updated: November 10, 2026
-                            </div>
-                        </div>
-
-                        <div class="release-main-content">
-                            <h3 class="release-headline">Internal Mutex &amp; Cookie Bridge Preview</h3>
-                            <p class="release-summary">
-                                Experimental prototype build for testing kernel mutex closure timing and non-destructive session token persistence.
-                            </p>
-
-                            <div class="release-notes-block">
-                                <div class="notes-header">Changelog &amp; Notes:</div>
-                                <ul class="release-bullets">
-                                    <li><strong>Prototype Engine:</strong> Validated Win32 NT handle stripping on active RobloxPlayerBeta processes.</li>
-                                    <li><strong>Loopback API:</strong> Prototyped local status healthcheck on port 28491.</li>
-                                    <li><strong>Cookie Parsing:</strong> Validated <code>.ROBLOSECURITY</code> token reading without server logout triggers.</li>
-                                </ul>
-                            </div>
-
-                            <div class="release-download-group">
-                                <a href="downloads/v0.9.2/multialts-v0.9.2-beta.zip" download="multialts-v0.9.2-beta.zip" class="btn-release-download archive">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                        <polyline points="7 10 12 15 17 10"/>
-                                        <line x1="12" y1="15" x2="12" y2="3"/>
-                                    </svg>
-                                    <span>Download multialts-v0.9.2-beta.zip</span>
-                                    <span class="file-size-tag">411 KB</span>
-                                </a>
-
-                                <a href="downloads/v0.9.2/" class="btn-release-folder" target="_blank">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                                    </svg>
-                                    <span>Folder /v0.9.2/</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dynamic GitHub Releases Injection Target -->
-                    <div id="dynamicReleasesArea"></div>
                 </div>
 
-            </div>
-        </section>
-
-        <!-- Section 6: Quickstart -->
-        <section class="content-section" id="quickstart">
-            <div class="section-container">
-                <div class="section-heading">
-                    <span class="section-tag">[06] QUICKSTART</span>
-                    <h2 class="section-title">Up and running in three steps</h2>
-                    <p class="section-intro">
-                        Setting up MultiAlts takes less than 60 seconds.
-                    </p>
-                </div>
-
-                <div class="steps-grid">
-                    <div class="step-card">
-                        <div class="step-header">
-                            <span class="step-index">STEP 1</span>
-                        </div>
-                        <h3 class="step-title">Load the Extension</h3>
-                        <p class="step-text">
-                            Download the extension <code>.zip</code>, extract the folder, go to <code>chrome://extensions</code>, turn on Developer Mode, and click <strong>Load unpacked</strong>.
+                <!-- Right Column: The PowerShell Command -->
+                <div class="showcase-col showcase-powershell">
+                    <div class="col-meta">
+                        <div class="col-kicker">Core Unlocker</div>
+                        <h2 class="col-title">Required for multiple windows</h2>
+                        <p class="col-description">
+                            Unlocks Windows kernel mutexes in 300ms so Roblox permits multiple client instances. If you only play 2 or 3 accounts, this command is all you need—no extension required.
                         </p>
-                    </div>
-
-                    <div class="step-card">
-                        <div class="step-header">
-                            <span class="step-index">STEP 2</span>
-                        </div>
-                        <h3 class="step-title">Start the Engine</h3>
-                        <p class="step-text">
-                            Open Windows PowerShell and run <code>irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/install.ps1 | iex</code> (or double-click <code>install.cmd</code>). The extension will switch to <strong>Engine Active</strong>.
-                        </p>
-                    </div>
-
-                    <div class="step-card">
-                        <div class="step-header">
-                            <span class="step-index">STEP 3</span>
-                        </div>
-                        <h3 class="step-title">Launch &amp; Play</h3>
-                        <p class="step-text">
-                            Add your accounts in the extension popup. Click an alt to activate it, navigate to any game on <code>roblox.com</code>, and click <strong>Play MultiAlts</strong> to launch parallel clients!
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Call to action card -->
-                <div class="download-banner-card">
-                    <div class="banner-left">
-                        <h3 class="banner-title">Ready to run multiple accounts?</h3>
-                        <p class="banner-sub">Download the extension and start playing side-by-side today.</p>
-                    </div>
-                    <div class="banner-right">
-                        <a href="downloads/multialts-extension.zip" download="multialts-extension.zip" class="btn-primary">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                            <span>Download Extension (.zip)</span>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Section 7: Uninstallation -->
-        <section class="content-section alt-bg" id="uninstall">
-            <div class="section-container">
-                <div class="section-heading">
-                    <span class="section-tag">[07] UNINSTALLATION</span>
-                    <h2 class="section-title">How to completely uninstall MultiAlts</h2>
-                    <p class="section-intro">
-                        Revert your computer and Roblox back to standard single-instance mode in two simple steps.
-                    </p>
-                </div>
-
-                <div class="steps-grid">
-                    <div class="step-card">
-                        <div class="step-header">
-                            <span class="step-index">STEP 1</span>
-                        </div>
-                        <h3 class="step-title">Remove the Extension</h3>
-                        <p class="step-text">
-                            Right-click the MultiAlts icon in your browser toolbar (or visit <code>chrome://extensions</code>) and select <strong>Remove from Chrome</strong>. This clears your local account vault and removes website buttons.
-                        </p>
-                    </div>
-
-                    <div class="step-card">
-                        <div class="step-header">
-                            <span class="step-index">STEP 2</span>
-                        </div>
-                        <h3 class="step-title">Run Clean Uninstaller</h3>
-                        <p class="step-text">
-                            Open Windows PowerShell and paste the one-line uninstaller below. It terminates the background engine, deletes the Windows startup entry, wipes AppData files, and automatically closes all open Roblox game windows to purge stripped mutexes from memory.
-                        </p>
-                    </div>
-
-                    <div class="step-card">
-                        <div class="step-header">
-                            <span class="step-index">STEP 3</span>
-                        </div>
-                        <h3 class="step-title">Restored to Vanilla</h3>
-                        <p class="step-text">
-                            Your system is completely clean. The next time you open Roblox and try to launch a second account, Roblox will enforce its native single-instance limit and block the second window.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Interactive Terminal for Uninstall Command -->
-                <div class="terminal-container" style="margin-top: 36px;">
-                    <div class="terminal-topbar">
-                        <div class="terminal-dots">
-                            <span class="term-dot dot-close"></span>
-                            <span class="term-dot dot-min"></span>
-                            <span class="term-dot dot-max"></span>
-                            <span class="terminal-file-name">Windows PowerShell (Uninstaller)</span>
-                        </div>
-                        <div class="terminal-top-actions">
-                            <button class="terminal-copy-btn" id="uninstallCopyBtn">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        <div class="col-actions">
+                            <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/install.ps1" target="_blank" rel="noopener" class="btn-action-secondary">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
                                 </svg>
-                                <span>Copy Uninstaller</span>
-                            </button>
-                            <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/uninstall.ps1" target="_blank" rel="noopener" class="terminal-view-code">
-                                <span>Inspect on GitHub</span>
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                                    <polyline points="15 3 21 3 21 9"/>
-                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                <span>Inspect install.ps1 Source</span>
+                            </a>
+                            <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/uninstall.ps1" target="_blank" rel="noopener" class="btn-action-secondary">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
                                 </svg>
+                                <span>Inspect uninstall.ps1 Source</span>
                             </a>
                         </div>
                     </div>
-                    <div class="terminal-body">
-                        <pre class="terminal-code-block"><code id="uninstallCommandCode">irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1 | iex</code></pre>
+
+                    <div class="terminals-stack">
+                        <!-- 1. Install & Unlock Terminal -->
+                        <div class="terminal-window">
+                            <div class="terminal-topbar">
+                                <div class="terminal-tab-group">
+                                    <div class="terminal-tab active">
+                                        <svg class="terminal-tab-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4">
+                                            <polyline points="4 17 10 11 4 5"></polyline>
+                                            <line x1="12" y1="19" x2="20" y2="19"></line>
+                                        </svg>
+                                        <span class="terminal-tab-name">Windows PowerShell</span>
+                                        <span class="terminal-tab-close">✕</span>
+                                    </div>
+                                    <span class="terminal-tab-add">+</span>
+                                </div>
+                                <div class="terminal-topbar-actions">
+                                    <button class="btn-terminal-copy" id="webCopyBtn" type="button" title="Copy install command">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                        </svg>
+                                        <span>Copy Command</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="terminal-body">
+                                <div class="term-cmd-row">
+                                    <span class="term-ps-prompt">PS C:\WINDOWS\system32&gt;</span>
+                                    <span class="term-cmd-irm">irm</span>
+                                    <code class="term-cmd-url" id="webCommandCode">https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/install.ps1</code>
+                                    <span class="term-cmd-pipe">| iex</span>
+                                </div>
+                                <div class="term-output-stream">
+                                    <div class="term-banner-line">=============================================================</div>
+                                    <div class="term-banner-title">        MultiAlts RBX - Installer &amp; Service</div>
+                                    <div class="term-banner-line">=============================================================</div>
+                                    <div class="term-line term-cyan">[*] Downloading MultiAlts engine components...</div>
+                                    <div class="term-line term-cyan">[*] Registering Windows auto-start on login...</div>
+                                    <div class="term-line term-cyan">[*] Starting MultiAlts background daemon...</div>
+                                    <div class="term-line term-green">[+] Daemon successfully started! (PID: 8052)</div>
+                                    <div class="term-line term-white">[*] Active endpoint: http://localhost:28491/</div>
+                                    <div class="term-line term-white">[*] MultiAlts is now active and will automatically start with Windows.</div>
+                                    <div class="term-line term-white">[*] You can now use the Chrome extension to switch accounts and play.</div>
+                                </div>
+                                <div class="term-prompt-return">
+                                    <span class="term-ps-prompt">PS C:\WINDOWS\system32&gt;</span>
+                                    <span class="term-cursor"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Clean Uninstall Terminal -->
+                        <div class="terminal-window">
+                            <div class="terminal-topbar">
+                                <div class="terminal-tab-group">
+                                    <div class="terminal-tab active">
+                                        <svg class="terminal-tab-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4">
+                                            <polyline points="4 17 10 11 4 5"></polyline>
+                                            <line x1="12" y1="19" x2="20" y2="19"></line>
+                                        </svg>
+                                        <span class="terminal-tab-name">Windows PowerShell</span>
+                                        <span class="terminal-tab-close">✕</span>
+                                    </div>
+                                    <span class="terminal-tab-add">+</span>
+                                </div>
+                                <div class="terminal-topbar-actions">
+                                    <button class="btn-terminal-copy btn-copy-uninstall" id="uninstallCopyBtn" type="button" title="Copy uninstall command">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                        </svg>
+                                        <span>Copy Command</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="terminal-body">
+                                <div class="term-cmd-row">
+                                    <span class="term-ps-prompt">PS C:\WINDOWS\system32&gt;</span>
+                                    <span class="term-cmd-irm">irm</span>
+                                    <code class="term-cmd-url" id="uninstallCommandCode">https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1</code>
+                                    <span class="term-cmd-pipe">| iex</span>
+                                </div>
+                                <div class="term-output-stream">
+                                    <div class="term-banner-line">=============================================================</div>
+                                    <div class="term-banner-title">        MultiAlts RBX - Complete Uninstaller</div>
+                                    <div class="term-banner-line">=============================================================</div>
+                                    <div class="term-line term-cyan">[*] Stopping MultiAlts background engine...</div>
+                                    <div class="term-line term-green">[+] Windows startup entries removed.</div>
+                                    <div class="term-line term-green">[+] MultiAlts RBX has been completely removed.</div>
+                                    <div class="term-line term-white">[*] To finish, right-click the MultiAlts extension in your browser and select 'Remove from Chrome'.</div>
+                                    <div class="term-line term-white">[*] Your system is now back to default single-instance Roblox.</div>
+                                </div>
+                                <div class="term-prompt-return">
+                                    <span class="term-ps-prompt">PS C:\WINDOWS\system32&gt;</span>
+                                    <span class="term-cursor"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="uninstall-notice-box" style="margin-top: 20px; padding: 14px 18px; background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 10px; font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
-                    <strong style="color: #f59e0b;">Automatic Window Cleanup:</strong> When executing the uninstaller, all currently running Roblox game windows are automatically closed. This ensures that any stripped mutex handles in Windows kernel memory are completely purged so that Roblox immediately returns to its default single-window behavior.
-                </div>
-
-                <!-- Verification Check Card -->
-                <div class="verification-card" style="margin-top: 22px; padding: 20px 24px; background: #0c0e14; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase;">Verification Check</span>
-                        <span style="font-size: 0.74rem; color: var(--text-muted); font-family: var(--font-mono);">PowerShell 5.1+</span>
-                    </div>
-                    <h4 style="font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">How to verify MultiAlts is 100% removed</h4>
-                    <p style="font-size: 0.82rem; color: var(--text-sub); line-height: 1.5; margin-bottom: 12px;">
-                        Paste this test into PowerShell to verify that the background engine, disk files, and Windows startup key are all gone:
-                    </p>
-                    <pre class="terminal-code-block" style="background: #141722; padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05); font-family: var(--font-mono); font-size: 0.75rem; color: #a5f3fc; overflow-x: auto; margin: 0 0 12px 0;"><code>[PSCustomObject]@{
-    EngineRunning = [bool](Get-NetTCPConnection -LocalPort 28491 -ErrorAction SilentlyContinue)
-    FilesExist    = (Test-Path "$env:LOCALAPPDATA\multialts-rbx")
-    AutoStartKey  = [bool](Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "MultiAltsRBX" -ErrorAction SilentlyContinue)
-}</code></pre>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.5;">
-                        When all three report <strong style="color: #f87171;">False</strong>, the background engine is dead, all files are wiped, and Windows startup is clean. (When installed, all three report <strong style="color: #10b981;">True</strong>).
-                    </p>
-                </div>
-
-                <div style="margin-top: 16px; font-size: 0.84rem; color: var(--text-muted); text-align: center;">
-                    Downloaded the files locally? You can also simply double-click <code>uninstall.cmd</code> or run <code>.\uninstall.ps1</code>.
                 </div>
 
             </div>
         </section>
 
-        <!-- Section 8: FAQ -->
-        <section class="content-section" id="faq">
-            <div class="section-container">
-                <div class="section-heading">
-                    <span class="section-tag">[08] FAQ</span>
-                    <h2 class="section-title">Frequently asked questions</h2>
-                    <p class="section-intro">
-                        Clear answers to common questions about safety, performance, and compatibility.
-                    </p>
+        <!-- Section 2: Features (Architectural Grid, Zero Carditis) -->
+        <section class="section-boundary" id="features">
+            <div class="section-inner">
+                <div class="section-header">
+                    <h2 class="section-heading">Core features</h2>
+                    <p class="section-subtext">Engineered for multiple accounts with native performance.</p>
                 </div>
 
-                <div class="faq-grid">
-                    <div class="faq-item">
-                        <h4 class="faq-question">Will my Roblox account get banned?</h4>
-                        <p class="faq-answer">
-                            No. MultiAlts is not a cheat, script executor, or memory injector. It does not interact with Roblox game code or servers. It only manages Windows kernel mutexes so Windows allows multiple instances to open.
-                        </p>
+                <div class="features-grid">
+                    <div class="feature-cell">
+                        <div class="feature-index">01</div>
+                        <h3 class="feature-title">1-Click Account Switch</h3>
+                        <p class="feature-desc">Switch accounts directly in your browser toolbar without typing usernames or passwords.</p>
                     </div>
 
-                    <div class="faq-item">
-                        <h4 class="faq-question">Do I need to keep PowerShell open?</h4>
-                        <p class="faq-answer">
-                            No. Once the command finishes executing, the background engine runs quietly in the background on port 28491. You can close PowerShell and play.
-                        </p>
+                    <div class="feature-cell">
+                        <div class="feature-index">02</div>
+                        <h3 class="feature-title">Bypass the 5-Account Limit</h3>
+                        <p class="feature-desc">Roblox caps account switching at 5 alts. MultiAlts lets you save 7, 10, or 20+ alts in one place.</p>
                     </div>
 
-                    <div class="faq-item">
-                        <h4 class="faq-question">How many accounts can I run at once?</h4>
-                        <p class="faq-answer">
-                            As many as your computer's RAM and GPU can handle. Native Roblox clients typically use around 1GB to 1.5GB of RAM each (compared to 4GB+ per instance on Android emulators).
-                        </p>
+                    <div class="feature-cell">
+                        <div class="feature-index">03</div>
+                        <h3 class="feature-title">Native Performance</h3>
+                        <p class="feature-desc">Runs official Windows Roblox directly with minimal RAM and low CPU overhead.</p>
                     </div>
 
-                    <div class="faq-item">
-                        <h4 class="faq-question">Is MultiAlts completely free?</h4>
-                        <p class="faq-answer">
-                            Yes, 100% free and open source under the MIT License. There are no paywalls, subscriptions, or premium tiers.
-                        </p>
+                    <div class="feature-cell">
+                        <div class="feature-index">04</div>
+                        <h3 class="feature-title">Green Presence Rings</h3>
+                        <p class="feature-desc">See glowing green indicators on accounts that are currently running in live game windows.</p>
                     </div>
 
-                    <div class="faq-item">
-                        <h4 class="faq-question">Why does it need a PowerShell command?</h4>
-                        <p class="faq-answer">
-                            Browser extensions operate within a strict browser sandbox and are barred by Chrome security policy from interacting directly with Windows OS processes or kernel handles. The helper command launches the local Windows daemon that can handle mutex stripping.
-                        </p>
+                    <div class="feature-cell">
+                        <div class="feature-index">05</div>
+                        <h3 class="feature-title">100% Private &amp; Local</h3>
+                        <p class="feature-desc">Your accounts and session tokens never leave your PC. MultiAlts has zero telemetry servers.</p>
                     </div>
 
-                    <div class="faq-item">
-                        <h4 class="faq-question">How do I completely uninstall MultiAlts?</h4>
-                        <p class="faq-answer">
-                            Remove the extension from <code>chrome://extensions</code>, then run the one-line uninstaller in PowerShell:
-                            <br><br>
-                            <code>irm https://raw.githubusercontent.com/marjhonie-siasol/multialts-rbx/main/uninstall.ps1 | iex</code>
-                            <br><br>
-                            This stops the background engine, wipes AppData, removes the Windows autostart entry, and automatically closes all open Roblox windows to flush mutexes and return Roblox to standard single-instance mode. For full details, see the <a href="#uninstall" style="color: var(--accent); text-decoration: underline;">Uninstallation Guide</a>.
-                        </p>
+                    <div class="feature-cell">
+                        <div class="feature-index">06</div>
+                        <h3 class="feature-title">Free &amp; Open Source</h3>
+                        <p class="feature-desc">Published under the MIT License with zero advertisements, zero subscriptions, and public code.</p>
                     </div>
                 </div>
+            </div>
+        </section>
 
+        <!-- Section 3: Setup Steps (Clean 2-Column Split: Extension on Left, PowerShell on Right) -->
+        <section class="section-boundary" id="setup">
+            <div class="section-inner">
+                <div class="section-header">
+                    <h2 class="section-heading">How to set up</h2>
+                    <p class="section-subtext">Under 60 seconds. Follow the steps for each component:</p>
+                </div>
+
+                <div class="setup-columns">
+                    
+                    <!-- Left Column: Extension Steps -->
+                    <div class="setup-col">
+                        <div class="setup-col-header">
+                            <h3 class="setup-col-title">Extension Setup</h3>
+                            <p class="setup-col-subtitle">Only needed if you want 1-click swapping for 5 or more alts.</p>
+                        </div>
+
+                        <ol class="setup-timeline">
+                            <li class="timeline-step">
+                                <div class="step-marker">1</div>
+                                <div class="step-body">
+                                    <h4 class="step-title">Download and extract the .zip</h4>
+                                    <p class="step-desc">Click <strong>Download Extension (.zip)</strong> and unzip the archive to a folder on your computer.</p>
+                                </div>
+                            </li>
+
+                            <li class="timeline-step">
+                                <div class="step-marker">2</div>
+                                <div class="step-body">
+                                    <h4 class="step-title">Load unpacked in Chrome</h4>
+                                    <p class="step-desc">Navigate to <code>chrome://extensions</code>, turn on <strong>Developer mode</strong> (top right), and click <strong>Load unpacked</strong>.</p>
+                                </div>
+                            </li>
+
+                            <li class="timeline-step">
+                                <div class="step-marker">3</div>
+                                <div class="step-body">
+                                    <h4 class="step-title">Save your accounts</h4>
+                                    <p class="step-desc">Click the MultiAlts icon in your browser toolbar and click <strong>+ Add current</strong> to save each account.</p>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- Right Column: PowerShell Steps -->
+                    <div class="setup-col">
+                        <div class="setup-col-header">
+                            <h3 class="setup-col-title">PowerShell Setup</h3>
+                            <p class="setup-col-subtitle">Required on Windows so games can open side-by-side.</p>
+                        </div>
+
+                        <ol class="setup-timeline">
+                            <li class="timeline-step">
+                                <div class="step-marker">1</div>
+                                <div class="step-body">
+                                    <h4 class="step-title">Open Windows PowerShell</h4>
+                                    <p class="step-desc">Press your Windows key, type <strong>PowerShell</strong>, and open the app.</p>
+                                </div>
+                            </li>
+
+                            <li class="timeline-step">
+                                <div class="step-marker">2</div>
+                                <div class="step-body">
+                                    <h4 class="step-title">Paste the install command</h4>
+                                    <p class="step-desc">Copy the Install command from the terminal box above, paste it into PowerShell, and press Enter.</p>
+                                </div>
+                            </li>
+
+                            <li class="timeline-step">
+                                <div class="step-marker">3</div>
+                                <div class="step-body">
+                                    <h4 class="step-title">Launch and play</h4>
+                                    <p class="step-desc">Open Account 1 and click Play. Switch to Account 2 and click Play. Both game windows stay open at the same time.</p>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: FAQ -->
+        <section class="section-boundary" id="faq">
+            <div class="section-inner">
+                <div class="section-header">
+                    <h2 class="section-heading">Frequently asked questions</h2>
+                    <p class="section-subtext">Clear answers to common questions about MultiAlts.</p>
+                </div>
+
+                <div class="faq-list">
+                    <div class="faq-row">
+                        <h4 class="faq-q">Will my Roblox account get banned?</h4>
+                        <p class="faq-a">No. MultiAlts does not inject cheats, scripts, or modify game memory. It only clears a Windows operating system mutex handle so Windows allows a second window to open.</p>
+                    </div>
+
+                    <div class="faq-row">
+                        <h4 class="faq-q">Do I have to install the Chrome extension?</h4>
+                        <p class="faq-a">No. If you only play 2 or 3 accounts, running the PowerShell command is sufficient. The extension is only needed if you want to store more than 5 accounts and switch between them with one click.</p>
+                    </div>
+
+                    <div class="faq-row">
+                        <h4 class="faq-q">How many accounts can I run at once?</h4>
+                        <p class="faq-a">As many as your computer hardware can handle. Modern gaming PCs typically handle 5 to 10 game instances simultaneously without issue.</p>
+                    </div>
+
+                    <div class="faq-row">
+                        <h4 class="faq-q">Do I need to keep PowerShell open?</h4>
+                        <p class="faq-a">No. Once the command completes, the unlocker runs quietly in the background as a Windows service. You can close PowerShell immediately.</p>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
     <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-brand-column">
+        <div class="footer-inner">
+            <div class="footer-meta">
                 <div class="footer-brand">
                     <img src="logo.png" alt="MultiAlts" class="footer-logo">
-                    <span class="footer-name">MultiAlts</span>
+                    <span class="footer-title">MultiAlts</span>
                 </div>
-                <p class="footer-disclaimer">
-                    MultiAlts is an open-source utility for Roblox on Windows. Not affiliated with, endorsed by, or sponsored by Roblox Corporation.
-                </p>
-                <div class="footer-copy">
-                    Released under the MIT License.
-                </div>
+                <p class="footer-note">Free, open-source multi-instance tool for Roblox on Windows. Not affiliated with Roblox Corporation.</p>
+                <div class="footer-license">Released under the MIT License.</div>
             </div>
 
-            <div class="footer-nav-groups">
-                <div class="footer-nav-col">
-                    <span class="nav-group-title">Navigation</span>
-                    <a href="#architecture">Architecture</a>
-                    <a href="#command">The Command</a>
+            <div class="footer-links">
+                <div class="footer-group">
+                    <span class="group-heading">Navigation</span>
+                    <a href="#hero">Overview</a>
                     <a href="#features">Features</a>
-                    <a href="#privacy">Privacy</a>
-                    <a href="#releases">Releases</a>
-                    <a href="#quickstart">Quickstart</a>
-                    <a href="#uninstall">Uninstall</a>
+                    <a href="#setup">Setup</a>
                     <a href="#faq">FAQ</a>
                 </div>
-
-                <div class="footer-nav-col">
-                    <span class="nav-group-title">Project</span>
-                    <a href="https://github.com/marjhonie-siasol/multialts-rbx" target="_blank" rel="noopener">GitHub Repository</a>
-                    <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/install.ps1" target="_blank" rel="noopener">Install Script (install.ps1)</a>
-                    <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/uninstall.ps1" target="_blank" rel="noopener">Uninstall Script (uninstall.ps1)</a>
-                    <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+                <div class="footer-group">
+                    <span class="group-heading">Project</span>
+                    <a href="https://github.com/marjhonie-siasol/multialts-rbx" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/install.ps1" target="_blank" rel="noopener">install.ps1</a>
+                    <a href="https://github.com/marjhonie-siasol/multialts-rbx/blob/main/uninstall.ps1" target="_blank" rel="noopener">uninstall.ps1</a>
                     <a href="downloads/multialts-extension.zip" download="multialts-extension.zip">Download Extension</a>
                 </div>
             </div>

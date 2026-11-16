@@ -1,67 +1,69 @@
-/* MultiAlts Injected Button Styles on Roblox.com */
+/* MultiAlts Injected Badge Styles on Roblox.com (Above Blue Play Button) */
 
-.multialts-wrapper {
-    margin-top: 10px;
+.multialts-indicator-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
     margin-bottom: 10px;
-    width: 100%;
-}
-
-.multialts-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    min-height: 40px;
-    padding: 10px 16px;
-    background-color: #ffffff;
-    color: #0b0c10 !important;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-}
-
-.multialts-btn:hover {
-    background-color: #f3f4f6;
-    border-color: #9ca3af;
-    transform: translateY(-1px);
-}
-
-.multialts-btn:active {
-    transform: translateY(0);
-}
-
-.multialts-btn svg {
-    fill: #0b0c10;
-}
-
-.multialts-launch-info {
-    display: none;
-    align-items: center;
-    gap: 6px;
-    margin-top: 6px;
+    margin-top: 4px;
+    padding: 5px 11px;
+    background: rgba(14, 18, 27, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     font-size: 12px;
-    color: #4b5563;
+    font-weight: 600;
+    color: #f3f4f6;
+    letter-spacing: -0.01em;
+    user-select: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: all 150ms ease;
+    width: fit-content;
 }
 
-.multialts-launch-info.visible {
-    display: flex;
+.multialts-indicator-badge:hover {
+    background: rgba(20, 26, 38, 0.95);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
-.multialts-status-dot {
+.multialts-badge-logo {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.multialts-badge-svg {
+    width: 14px;
+    height: 14px;
+    color: #38bdf8;
+    flex-shrink: 0;
+}
+
+.multialts-badge-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background-color: #10b981;
-    animation: multialts-pulse 1s infinite alternate;
+    background: #10b981;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.8);
+    flex-shrink: 0;
 }
 
-@keyframes multialts-pulse {
-    from { opacity: 0.4; }
-    to { opacity: 1; }
+.multialts-badge-dot.active {
+    background: #10b981;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.8);
+}
+
+.multialts-badge-dot.offline {
+    background: #f59e0b;
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.8);
+}
+
+.multialts-badge-text {
+    line-height: 1;
+}
+
+/* Ensure no trace of the old wrapper remains */
+.multialts-wrapper {
+    display: none !important;
 }

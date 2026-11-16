@@ -1,5 +1,6 @@
 // MultiAlts Popup Script
 const DAEMON_URL = 'http://localhost:28491/status';
+let isManageMode = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     checkEngine();
@@ -7,12 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     bindEvents();
 });
 
-// 1. Engine Check (Unique MultiAlts Indicator)
+// 1. Engine Check
 async function checkEngine() {
-    const dot = document.getElementById('statusDot');
-    const text = document.getElementById('statusText');
-    const pill = document.getElementById('engineStatusPill');
-    const banner = document.getElementById('setupBanner');
+    const notice = document.getElementById('engineNoticeBar');
 
     try {
         const controller = new AbortController();
@@ -21,49 +19,58 @@ async function checkEngine() {
         clearTimeout(timeout);
 
         if (res.ok) {
-            if (dot) dot.className = 'status-dot active';
-            if (text) text.innerText = 'Engine Active';
-            if (pill) pill.className = 'status-pill active';
-            if (banner) banner.style.display = 'none';
+            if (notice) {
+                notice.className = 'engine-notice-bar active';
+                notice.innerHTML = '<span class="notice-pip"></span><span class="notice-text">Engine active. Multiple accounts ready.</span>';
+            }
             return true;
         }
     } catch (_) {}
 
-    if (dot) dot.className = 'status-dot offline';
-    if (text) text.innerText = 'Setup Needed';
-    if (pill) pill.className = 'status-pill offline';
-    if (banner) banner.style.display = 'flex';
+    if (notice) {
+        notice.className = 'engine-notice-bar offline';
+        notice.innerHTML = '<span class="notice-text">PowerShell engine required for multiple accounts.</span> <a href="https://marjhonie-siasol.github.io/multialts-rbx/#setup" target="_blank" rel="noopener" class="notice-link" id="engineGuideLink">Guide &rarr;</a>';
+        const guideLink = document.getElementById('engineGuideLink');
+        if (guideLink) {
+            guideLink.onclick = (e) => {
+                e.preventDefault();
+                chrome.tabs.create({ url: guideLink.href });
+            };
+        }
+    }
     return false;
 }
 
 // 2. Events
 function bindEvents() {
-    // Copy Command
+    // Engine Setup Dropdown Toggle (Above Uninstall)
+    const engineToggle = document.getElementById('engineSetupToggleBtn');
+    const enginePanel = document.getElementById('engineSetupPanel');
+    if (engineToggle && enginePanel) {
+        engineToggle.onclick = () => {
+            const isHidden = enginePanel.style.display === 'none' || !enginePanel.style.display;
+            enginePanel.style.display = isHidden ? 'flex' : 'none';
+            engineToggle.classList.toggle('open', isHidden);
+        };
+    }
+
+    // Copy Engine Install Command
     const copyBtn = document.getElementById('copyCommandBtn');
     if (copyBtn) {
         copyBtn.onclick = () => {
             const cmd = document.getElementById('commandInput').value;
             navigator.clipboard.writeText(cmd).then(() => {
-                showToast('Copied command!');
+                showToast('Copied install command!');
             });
         };
     }
 
-    // Help Link ("What is this?")
+    // Install Guide Link
     const helpLink = document.getElementById('helpLink');
     if (helpLink) {
         helpLink.onclick = (e) => {
             e.preventDefault();
             chrome.tabs.create({ url: helpLink.href });
-        };
-    }
-
-    // GitHub Code Link
-    const githubLink = document.getElementById('githubLink');
-    if (githubLink) {
-        githubLink.onclick = (e) => {
-            e.preventDefault();
-            chrome.tabs.create({ url: githubLink.href });
         };
     }
 
@@ -98,13 +105,18 @@ function bindEvents() {
         };
     }
 
-    // Add Current Account
-    const addBtn = document.getElementById('addCurrentBtn');
-    if (addBtn) addBtn.onclick = addCurrentAccount;
-
     // Sign into Alt
     const altBtn = document.getElementById('newLoginBtn');
     if (altBtn) altBtn.onclick = signIntoAlt;
+
+    // Manage / Done Toggle
+    const manageBtn = document.getElementById('manageAccountsBtn');
+    if (manageBtn) {
+        manageBtn.onclick = () => {
+            isManageMode = !isManageMode;
+            loadAccounts();
+        };
+    }
 }
 
 // Auto-detect active Roblox browser account silently without requiring clicks
@@ -169,7 +181,24 @@ async function loadAccounts() {
     // Automatically detect and save logged-in Roblox account or Alt
     const detected = await autoDetectActiveAccount(accounts);
     accounts = detected.accounts;
-    if (detected.activeUserId) activeUserId = detected.activeUserId;
+    activeUserId = detected.activeUserId || null;
+    if (data.activeUserId !== activeUserId) {
+        await chrome.storage.local.set({ activeUserId });
+    }
+
+    // Update Manage button state
+    const manageBtn = document.getElementById('manageAccountsBtn');
+    if (manageBtn) {
+        if (accounts.length === 0) {
+            manageBtn.style.display = 'none';
+            isManageMode = false;
+        } else {
+            manageBtn.style.display = 'inline-block';
+            manageBtn.innerText = isManageMode ? 'Done' : 'Manage';
+            manageBtn.classList.toggle('done-mode', isManageMode);
+            manageBtn.title = isManageMode ? 'Finish removing accounts' : 'Manage and remove accounts';
+        }
+    }
 
     if (accounts.length === 0) {
         list.innerHTML = `<div class="empty-state">No accounts saved. Sign into Roblox to begin.</div>`;
@@ -219,8 +248,24 @@ async function loadAccounts() {
         }
 
         const card = document.createElement('div');
-        card.className = `account-card ${statusClass} ${isCurrentBrowser ? 'active' : ''}`;
+        card.className = `account-card ${statusClass} ${isCurrentBrowser ? 'active' : ''} ${isManageMode ? 'manage-mode' : ''}`;
         
+        let actionIconHtml = '';
+        let actionTitle = '';
+        let actionClass = 'btn-del';
+
+        if (isManageMode) {
+            // Manage Mode: Show Delete (Trash) Icon
+            actionClass = 'btn-del remove-mode';
+            actionTitle = `Delete @${acc.name} from MultiAlts`;
+            actionIconHtml = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>';
+        } else {
+            // Normal Mode: Show Logout Icon
+            actionClass = 'btn-del';
+            actionTitle = isCurrentBrowser ? 'Log out of browser session' : 'Log out';
+            actionIconHtml = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>';
+        }
+
         card.innerHTML = `
             <div class="avatar">
                 ${acc.avatarUrl ? `<img src="${acc.avatarUrl}" alt="${acc.name}">` : acc.name.slice(0, 2).toUpperCase()}
@@ -234,18 +279,23 @@ async function loadAccounts() {
                 <span class="status-dot"></span>
                 <span class="status-label">${statusLabel}</span>
             </div>
-            <button class="btn-del" data-id="${acc.id}" title="Remove">✕</button>
+            <button class="${actionClass}" data-id="${acc.id}" title="${actionTitle}" aria-label="${actionTitle}">${actionIconHtml}</button>
         `;
 
         card.onclick = (e) => {
-            if (e.target.classList.contains('btn-del')) return;
+            if (isManageMode) return;
+            if (e.target.closest('.btn-del')) return;
             switchAccount(acc);
         };
 
         const delBtn = card.querySelector('.btn-del');
         delBtn.onclick = (e) => {
             e.stopPropagation();
-            removeAccount(acc.id);
+            if (isManageMode) {
+                removeAccountCompletely(acc);
+            } else {
+                logoutBrowserSession(acc);
+            }
         };
 
         list.appendChild(card);
@@ -320,27 +370,107 @@ async function switchAccount(account) {
 
         await chrome.storage.local.set({ activeUserId: account.id });
         showToast(`Switched to @${account.name}`);
-        loadAccounts();
+        await loadAccounts();
 
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         if (tab && tab.url && tab.url.includes('roblox.com')) {
-            chrome.tabs.reload(tab.id);
+            if (tab.url.includes('/login') || tab.url.includes('/NewLogin')) {
+                chrome.tabs.update(tab.id, { url: 'https://www.roblox.com/home' });
+            } else {
+                chrome.tabs.reload(tab.id);
+            }
         }
     } catch (err) {
         showToast('Switch failed.');
     }
 }
 
-// 6. Remove Account
-async function removeAccount(id) {
-    const data = await chrome.storage.local.get(['accounts', 'activeUserId']);
-    let accounts = data.accounts || [];
-    accounts = accounts.filter(a => a.id !== id);
-    const activeUserId = data.activeUserId === id ? null : data.activeUserId;
+// 6. Logout Browser Session (Normal Mode)
+async function logoutBrowserSession(acc) {
+    try {
+        const data = await chrome.storage.local.get(['activeUserId']);
+        const currentCookie = await chrome.cookies.get({
+            url: 'https://www.roblox.com',
+            name: '.ROBLOSECURITY'
+        });
 
-    await chrome.storage.local.set({ accounts, activeUserId });
-    showToast('Removed account.');
-    loadAccounts();
+        const isCurrentSession = (acc.id === data.activeUserId) || 
+                                (currentCookie && currentCookie.value && currentCookie.value === acc.cookie);
+
+        if (isCurrentSession) {
+            // Remove .ROBLOSECURITY cookie from browser
+            await chrome.cookies.remove({
+                url: 'https://www.roblox.com',
+                name: '.ROBLOSECURITY'
+            });
+
+            // Set activeUserId to null, but keep account in list
+            await chrome.storage.local.set({ activeUserId: null });
+
+            // Redirect any open Roblox tabs to login page
+            try {
+                const tabs = await chrome.tabs.query({ url: '*://*.roblox.com/*' });
+                if (tabs && tabs.length > 0) {
+                    tabs.forEach(t => {
+                        chrome.tabs.update(t.id, { url: 'https://www.roblox.com/login' });
+                    });
+                }
+            } catch (_) {}
+
+            showToast(`Logged out of @${acc.name}`);
+        } else {
+            showToast(`@${acc.name} is not logged into the browser.`);
+        }
+        await loadAccounts();
+    } catch (err) {
+        console.error('Logout error:', err);
+        showToast('Logout failed.');
+    }
+}
+
+// 7. Remove Account Completely (Manage Mode)
+async function removeAccountCompletely(acc) {
+    try {
+        const data = await chrome.storage.local.get(['accounts', 'activeUserId']);
+        let accounts = data.accounts || [];
+        accounts = accounts.filter(a => a.id !== acc.id);
+
+        const currentCookie = await chrome.cookies.get({
+            url: 'https://www.roblox.com',
+            name: '.ROBLOSECURITY'
+        });
+
+        const isCurrentSession = (acc.id === data.activeUserId) || 
+                                (currentCookie && currentCookie.value && currentCookie.value === acc.cookie);
+
+        if (isCurrentSession) {
+            await chrome.cookies.remove({
+                url: 'https://www.roblox.com',
+                name: '.ROBLOSECURITY'
+            });
+            await chrome.storage.local.set({ accounts, activeUserId: null });
+            try {
+                const tabs = await chrome.tabs.query({ url: '*://*.roblox.com/*' });
+                if (tabs && tabs.length > 0) {
+                    tabs.forEach(t => {
+                        chrome.tabs.update(t.id, { url: 'https://www.roblox.com/login' });
+                    });
+                }
+            } catch (_) {}
+        } else {
+            await chrome.storage.local.set({ accounts });
+        }
+
+        if (accounts.length === 0) {
+            isManageMode = false;
+        }
+
+        showToast(`Removed @${acc.name}`);
+        await loadAccounts();
+    } catch (err) {
+        console.error('Remove error:', err);
+        showToast('Remove failed.');
+    }
 }
 
 // 7. Sign into Alt
@@ -351,6 +481,7 @@ async function signIntoAlt() {
             name: '.ROBLOSECURITY'
         });
 
+        await chrome.storage.local.set({ activeUserId: null });
         showToast('Session cleared. Sign into your alt!');
         
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -359,6 +490,7 @@ async function signIntoAlt() {
         } else {
             chrome.tabs.create({ url: 'https://www.roblox.com/login' });
         }
+        await loadAccounts();
     } catch (_) {}
 }
 

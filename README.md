@@ -64,6 +64,30 @@ multialts-rbx/
 
 ---
 
+## ⚖️ Do You Need the Extension? (PowerShell Engine vs. Extension)
+
+A common question is: *“Do I need to install the Chrome extension, or can I just run the PowerShell command?”*
+
+The answer depends on how many accounts you play and how you switch between them:
+
+| Requirement / Scenario | **Option A: PowerShell Engine Only** | **Option B: Engine + Chrome Extension** |
+| :--- | :--- | :--- |
+| **Number of Accounts** | Best for **2 to 3 accounts** | Recommended for **5, 10, or 20+ accounts** |
+| **Account Switching Method** | Roblox's built-in switcher or browser profiles | 1-click switching directly in your toolbar |
+| **Roblox 5-Account Limit** | Subject to Roblox's hard 5-account limit | **Bypasses the limit** (unlimited accounts saved locally) |
+| **Need Extension Installed?** | **No extension required at all!** | Yes, load `multialts-extension.zip` in Chrome/Brave |
+| **Need PowerShell Installed?** | **Yes, required** (removes Windows mutex) | **Yes, required** (removes Windows mutex) |
+| **Live In-Game Presence** | Via terminal (`.\multialts.ps1 status`) | Live presence badges + emerald avatar rings in popup |
+| **Password / 2FA Typing** | Needed if you switch past 5 accounts | Never re-enter passwords or 2FA codes |
+
+### When to choose Option A (PowerShell Engine Only):
+If you only run 2 or 3 alts and switch them via Roblox’s website or separate browser profiles, **you do not need the extension**. Just install the engine (`install.ps1` or `install.cmd`), and you can immediately launch multiple Roblox windows side-by-side.
+
+### When to choose Option B (Engine + Extension):
+If you manage a large alt farm (5 to 20+ accounts), switching through the Roblox website hits their 5-account restriction. The extension acts as an offline local vault that allows 1-click swapping between unlimited accounts with zero accidental logouts.
+
+---
+
 ## 🚀 Installation & Quick Start
 
 ### Option A: One-Line Install (PowerShell)
