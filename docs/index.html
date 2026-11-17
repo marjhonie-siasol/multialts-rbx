@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=13">
+    <link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
 
@@ -589,6 +589,100 @@
                     </div>
 
                 </div>
+
+                <!-- Engine Status Diagnostics: Active vs Inactive -->
+                <div class="engine-diagnostics-container">
+                    <div class="engine-diagnostics-header">
+                        <span class="command-badge badge-verify">Diagnostics &amp; Verification</span>
+                        <h3 class="engine-diagnostics-heading">Engine Status: Inactive vs. Active</h3>
+                        <p class="engine-diagnostics-subtext">The MultiAlts extension automatically checks whether your PowerShell unlocker is running in the background. Compare both status states below to understand how your setup behaves.</p>
+                    </div>
+
+                    <div class="engine-diagnostics-grid">
+                        
+                        <!-- Left: Inactive Engine -->
+                        <div class="engine-diag-card diag-inactive">
+                            <div class="engine-diag-topbar">
+                                <div class="engine-diag-meta">
+                                    <span class="engine-diag-dot dot-inactive"></span>
+                                    <span class="engine-diag-status">Engine Not Active</span>
+                                </div>
+                                <span class="engine-diag-badge badge-amber">Single-Instance Mode</span>
+                            </div>
+
+                            <div class="diag-frame-wrapper">
+                                <div class="step-img-frame" title="Click to view full screenshot">
+                                    <img src="assets/setup/engine.not.acitve.png" alt="MultiAlts popup showing Engine Not Active banner: PowerShell engine required" class="step-img" loading="lazy">
+                                    <div class="step-img-caption">
+                                        <span>Banner: PowerShell engine required</span>
+                                        <span>Click to expand</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="engine-diag-details">
+                                <div class="diag-point">
+                                    <h4 class="diag-point-title">Extension Banner Indicator</h4>
+                                    <p class="diag-point-desc">Shows an amber alert: <code>PowerShell engine required for multiple accounts. Guide &rarr;</code>.</p>
+                                </div>
+                                <div class="diag-point">
+                                    <h4 class="diag-point-title">What This State Means</h4>
+                                    <p class="diag-point-desc">The browser extension is installed and your accounts are saved, but the Windows unlocker service has not been started yet in PowerShell.</p>
+                                </div>
+                                <div class="diag-point">
+                                    <h4 class="diag-point-title">Roblox Client Behavior</h4>
+                                    <p class="diag-point-desc">Roblox enforces its default singleton lock (<code>ROBLOX_singletonMutex</code>). If you click Play on a second account, Windows will terminate or disconnect your first Roblox game.</p>
+                                </div>
+                                <div class="diag-point-solution solution-inactive">
+                                    <span class="solution-tag">How to activate</span>
+                                    <p class="solution-text">Run the one-line install command in PowerShell (Step 1 above). The extension banner turns green within seconds.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Active Engine -->
+                        <div class="engine-diag-card diag-active">
+                            <div class="engine-diag-topbar">
+                                <div class="engine-diag-meta">
+                                    <span class="engine-diag-dot dot-active"></span>
+                                    <span class="engine-diag-status">Engine Active</span>
+                                </div>
+                                <span class="engine-diag-badge badge-green">Multi-Instance Ready</span>
+                            </div>
+
+                            <div class="diag-frame-wrapper">
+                                <div class="step-img-frame" title="Click to view full screenshot">
+                                    <img src="assets/setup/engine.acitve.png" alt="MultiAlts popup showing Engine Active banner: Multiple accounts ready" class="step-img" loading="lazy">
+                                    <div class="step-img-caption">
+                                        <span>Banner: Engine active. Multiple accounts ready.</span>
+                                        <span>Click to expand</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="engine-diag-details">
+                                <div class="diag-point">
+                                    <h4 class="diag-point-title">Extension Banner Indicator</h4>
+                                    <p class="diag-point-desc">Shows a vibrant green banner with a glowing indicator dot: <code>Engine active. Multiple accounts ready.</code></p>
+                                </div>
+                                <div class="diag-point">
+                                    <h4 class="diag-point-title">What This State Means</h4>
+                                    <p class="diag-point-desc">The Win32 NT handle stripper engine is actively running in the background and monitoring Roblox processes.</p>
+                                </div>
+                                <div class="diag-point">
+                                    <h4 class="diag-point-title">Roblox Client Behavior</h4>
+                                    <p class="diag-point-desc">Mutex and event singleton locks are cleared in real-time (&lt; 350ms). You can launch 2, 5, 10, or more Roblox accounts side-by-side with zero conflicts.</p>
+                                </div>
+                                <div class="diag-point-solution solution-active">
+                                    <span class="solution-tag">Ready to play</span>
+                                    <p class="solution-text">Switch accounts seamlessly in MultiAlts and press Play on each. Every account launches into its own independent game window.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -941,6 +1035,6 @@
         </div>
     </footer>
 
-    <script src="script.js?v=13"></script>
+    <script src="script.js?v=14"></script>
 </body>
 </html>
